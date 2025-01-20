@@ -12,23 +12,25 @@ select * from review;
 select * from service_center;
 select * from delivery_address;
 
-drop table user;
-drop table category;
-drop table product;
-drop table order_history;
 drop table order_product;
 drop table cart;
 drop table review;
 drop table service_center;
 drop table delivery_address;
+drop table product;
+drop table order_history;
+drop table user;
+drop table category;
+
+
 
 -- 회원 테이블
 CREATE TABLE `user` (
-  `user_id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '사용자 고유번호',
-  `user_type` ENUM('member', 'guest') NULL COMMENT '사용자 구분',
+  `user_code` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '사용자 고유번호',
+  `user_type` ENUM('user', 'guest') NULL COMMENT '사용자 구분',
   `manager_id` INT UNSIGNED NULL COMMENT '관리자 고유번호',
-  `name` VARCHAR(50) NOT NULL COMMENT '사용자 아이디',
-  `password` VARCHAR(255) NULL COMMENT '사용자 비밀번호',
+  `user_id` VARCHAR(50) NOT NULL COMMENT '사용자 아이디',
+  `user_pwd` VARCHAR(255) NULL COMMENT '사용자 비밀번호',
   `username` VARCHAR(50) UNIQUE NULL COMMENT '사용자 이름',
   `phone_num` VARCHAR(20) UNIQUE NOT NULL COMMENT '전화번호',
   `email` VARCHAR(50) UNIQUE NOT NULL COMMENT '이메일',
@@ -58,12 +60,12 @@ CREATE TABLE `product` (
 -- 주문 기록 테이블
 CREATE TABLE `order_history` (
   `order_id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '주문 고유번호',
-  `user_id` INT UNSIGNED NOT NULL COMMENT '사용자 고유번호',
-  `order_date` DATE NOT NULL COMMENT '주문일',
+  `user_code` INT UNSIGNED NOT NULL COMMENT '사용자 고유번호',
+  `order_date` DATETIME NOT NULL COMMENT '주문일',
   `order_state` VARCHAR(50) NOT NULL COMMENT '주문 상태',
   `order_price` INT UNSIGNED NOT NULL COMMENT '결제 금액',
   `payment` VARCHAR(50) NOT NULL  COMMENT '결제 방식',
-  FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
+  FOREIGN KEY (`user_code`) REFERENCES `user`(`user_code`)
 );
 
 -- 주문 상품목록 테이블
@@ -80,10 +82,10 @@ CREATE TABLE `order_product` (
 -- 장바구니 테이블
 CREATE TABLE `cart` (
   `cart_id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '장바구니 고유번호',
-  `user_id` INT UNSIGNED NULL COMMENT '사용자 고유번호',
+  `user_code` INT UNSIGNED NULL COMMENT '사용자 고유번호',
   `product_id` INT UNSIGNED NOT NULL COMMENT '상품 고유번호',
   `amount` INT UNSIGNED DEFAULT 1 COMMENT '장바구니 수량',
-  FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`),
+  FOREIGN KEY (`user_code`) REFERENCES `user`(`user_code`),
   FOREIGN KEY (`product_id`) REFERENCES `product`(`product_id`)
 );
 
@@ -92,26 +94,26 @@ CREATE TABLE `review` (
   `review_id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '리뷰 고유번호',
   `product_id` INT UNSIGNED NOT NULL  COMMENT '상품 고유번호',
   `order_id` INT UNSIGNED NOT NULL COMMENT '주문 고유번호',
-  `user_id` INT UNSIGNED NULL COMMENT '사용자 고유번호',
+  `user_code` INT UNSIGNED NULL COMMENT '사용자 고유번호',
   `rating` TINYINT UNSIGNED CHECK (`rating` BETWEEN 1 AND 5) COMMENT '평점',
   `comment` VARCHAR(500) NULL COMMENT '리뷰 코맨트',
-  `review_date` DATE NOT NULL COMMENT '리뷰 날짜',
+  `review_date` DATETIME NOT NULL COMMENT '리뷰 날짜',
   FOREIGN KEY (`product_id`) REFERENCES `product`(`product_id`),
   FOREIGN KEY (`order_id`) REFERENCES `order_history`(`order_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
+  FOREIGN KEY (`user_code`) REFERENCES `user`(`user_code`)
 );
 
 -- 고객센터 테이블
 CREATE TABLE `service_center` (
   `inquiry_id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '고객센터 고유번호',
-  `user_id` INT UNSIGNED NULL COMMENT '사용자 고유번호',
+  `user_code` INT UNSIGNED NULL COMMENT '사용자 고유번호',
   `inquiry_type` VARCHAR(50) NOT NULL COMMENT '문의유형',
   `inquiry_content` VARCHAR(500) NOT NULL COMMENT '문의내용',
-  `inquiry_date` DATE NOT NULL COMMENT '문의날짜',
+  `inquiry_date` DATETIME NOT NULL COMMENT '문의날짜',
   `response_status` VARCHAR(20) NOT NULL COMMENT '답변상태',
   `response_content` VARCHAR(500) NULL COMMENT '답변내용',
-  `response_date` DATE NULL COMMENT '답변날짜',
-  FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
+  `response_date` DATETIME NULL COMMENT '답변날짜',
+  FOREIGN KEY (`user_code`) REFERENCES `user`(`user_code`)
 );
 
 -- 배송 주소 테이블
@@ -123,4 +125,6 @@ CREATE TABLE `delivery_address` (
   `phone_num` VARCHAR(20) NOT NULL COMMENT '전화번호',
   FOREIGN KEY (`order_id`) REFERENCES `order_history`(`order_id`) ON DELETE CASCADE
 );
+
+insert into `user`(`user_type`, `manager_id`, `user_id`, `user_pwd`, `username`, `phone_num`, `email`, `address`, `cash_point`, `gender`)values('user', 123 , 'Lee', '12345678', '이순자', '010-1234-5678', 'Lee@test.com', '서울', 0, 'male');
 
