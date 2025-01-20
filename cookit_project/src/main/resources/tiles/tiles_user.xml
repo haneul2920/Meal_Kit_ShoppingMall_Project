@@ -5,12 +5,12 @@
 <tiles-definitions>
 	  <definition name="/user/loginForm" extends="baseLayout">
          <put-attribute name="title" value="로그인 페이지" />
-         <put-attribute name="body" value="/WEB-INF/views/user/loginForm.jsp" />
+         <put-attribute name="body" value="/WEB-INF/view/user/loginForm.jsp" />
       </definition>  
       
       <definition name="/user/userForm" extends="baseLayout">
          <put-attribute name="title" value="회원 가입 페이지" />
-         <put-attribute name="body" value="/WEB-INF/views/user/userForm.jsp" />
+         <put-attribute name="body" value="/WEB-INF/view/user/userForm.jsp" />
       </definition>
   
 </tiles-definitions>

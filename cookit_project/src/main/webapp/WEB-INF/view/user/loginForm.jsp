@@ -7,6 +7,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<c:if test='${not empty message }'>
+<script>
+window.onload=function()
+{
+  result();
+}
+
+function result(){
+	alert("아이디나  비밀번호가 틀립니다. 다시 로그인해주세요");
+}
+</script>
+</c:if>
 <title>회원 로그인 창</title>
 </head>
 <body>
@@ -21,7 +33,7 @@
 				</TR>
 				<TR class="solid_line">
 					<TD class="fixed_join">비밀번호</TD>
-					<TD><input name="user_pw" type="password" size="20" /></TD>
+					<TD><input name="user_pwd" type="password" size="20" /></TD>
 				</TR>
 			</TBODY>
 		</TABLE>
@@ -32,7 +44,7 @@
 		<Br><br>
 		   <a href="#">아이디 찾기</a>  | 
 		   <a href="#">비밀번호 찾기</a> | 
-		   <a href="${contextPath}/user/addUser.do">회원가입</a>    | 
+		   <a href="${contextPath}/user/userForm.do">회원가입</a>    | 
 		   <a href="#">고객 센터</a>					   
 	</form>
 </body>

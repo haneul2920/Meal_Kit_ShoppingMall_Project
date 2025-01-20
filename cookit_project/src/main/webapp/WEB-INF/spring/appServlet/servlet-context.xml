@@ -18,11 +18,11 @@
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	
 <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
-		<beans:property name="prefix" value="/WEB-INF/views/" /> 
+		<beans:property name="prefix" value="/WEB-INF/view/" /> 
 		<beans:property name="suffix" value=".jsp" /> 
 	</beans:bean>
 
-<!-- 
+
     <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:list>
@@ -32,20 +32,20 @@
 		<beans:property name="preparerFactoryClass"
 			          value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
 	</beans:bean>
- -->
+
 	
 <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 
 	<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/> 
 </beans:bean>
 	<context:component-scan base-package="com.cookit" />
 	
-	<!-- <mvc:interceptors>
+	<mvc:interceptors>
   <mvc:interceptor>
     <mvc:mapping path="/*/*.do"/> 
     <mvc:mapping path="/*/*/*.do"/> 
-      <beans:bean class="com.cookit_project.common.interceptor.ViewNameInterceptor" />
+      <beans:bean class="com.cookit.common.interceptor.ViewNameInterceptor" />
   </mvc:interceptor>
- </mvc:interceptors> -->
+ </mvc:interceptors>
  
  	<!-- 멀티파트 리졸버 -->
     <beans:bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

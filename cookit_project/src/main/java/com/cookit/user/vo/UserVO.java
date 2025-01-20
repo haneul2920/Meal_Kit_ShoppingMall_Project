@@ -4,21 +4,34 @@ import org.springframework.stereotype.Component;
 
 @Component("userVO")
 public class UserVO {
-	private String user_id;
+	private String user_code;
+	private String user_type;
 	private String manager_id;
-	private String user_name;
-	private String user_pw;
-	private String user_phone;
-	private String user_email;
-	private String user_addr;
-	private String user_point;
+	private String user_id;
+	private String user_pwd;
+	private String username;
+	private String phone_num;
+	private String email1;
+	private String email2;
+	private String roadAddress;
+	private String jibunAddress;
+	private String namujiAddress;
+	private String zipcode;	
+	private String cash_point;
+	private String gender;
 	
-		
-	public String getUser_id() {
-		return user_id;
+	
+	public String getUser_code() {
+		return user_code;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUser_code(String user_code) {
+		this.user_code = user_code;
+	}
+	public String getUser_type() {
+		return user_type;
+	}
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
 	}
 	public String getManager_id() {
 		return manager_id;
@@ -26,42 +39,79 @@ public class UserVO {
 	public void setManager_id(String manager_id) {
 		this.manager_id = manager_id;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getUser_id() {
+		return user_id;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
-	public String getUser_pw() {
-		return user_pw;
+	public String getUser_pwd() {
+		return user_pwd;
 	}
-	public void setUser_pw(String user_pw) {
-		this.user_pw = user_pw;
+	public void setUser_pwd(String user_pwd) {
+		this.user_pwd = user_pwd;
 	}
-	public String getUser_phone() {
-		return user_phone;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser_phone(String user_phone) {
-		this.user_phone = user_phone;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public String getUser_email() {
-		return user_email;
+	public String getEmail1() {
+		return email1;
 	}
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+	public void setEmail1(String email1) {
+		this.email1 = email1;
 	}
-	public String getUser_addr() {
-		return user_addr;
+	public String getEmail2() {
+		return email2;
 	}
-	public void setUser_addr(String user_addr) {
-		this.user_addr = user_addr;
+	public void setEmail2(String email2) {
+		this.email2 = email2;
 	}
-	public String getUser_point() {
-		return user_point;
+	public String getRoadAddress() {
+		return roadAddress;
 	}
-	public void setUser_point(String user_point) {
-		this.user_point = user_point;
+	public void setRoadAddress(String roadAddress) {
+		this.roadAddress = roadAddress;
 	}
+	public String getJibunAddress() {
+		return jibunAddress;
+	}
+	public void setJibunAddress(String jibunAddress) {
+		this.jibunAddress = jibunAddress;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getPhone_num() {
+		return phone_num;
+	}
+	public void setPhone_num(String phone_num) {
+		this.phone_num = phone_num;
+	}
+	public String getCash_point() {
+		return cash_point;
+	}
+	public void setCash_point(String cash_point) {
+		this.cash_point = cash_point;
+	}
+	public String getNamujiAddress() {
+		return namujiAddress;
+	}
+	public void setNamujiAddress(String namujiAddress) {
+		this.namujiAddress = namujiAddress;
+	}	
 	
 
 	

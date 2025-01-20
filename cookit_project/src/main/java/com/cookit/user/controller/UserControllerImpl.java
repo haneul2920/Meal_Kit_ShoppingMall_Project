@@ -18,53 +18,60 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cookit.common.base.BaseController;
 import com.cookit.user.vo.UserVO;
+import com.cookit.user.service.UserService;
 
 @Controller
 @RequestMapping("/user")
-public class UserControllerImpl implements UserController{
-	
+public class UserControllerImpl extends BaseController implements UserController{
+	@Autowired
+	private UserService userService;
+	@Autowired
 	private UserVO userVO;
 
 	@Override	
-	@RequestMapping(value="/*Form.do" ,method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/login.do" ,method = RequestMethod.POST)
 	public ModelAndView login(@RequestParam Map<String, String> loginMap,
 			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-//		userVO=userService.login(loginMap);
-//		if(userVO!= null && userVO.getUser_id()!=null){
-//			HttpSession session=request.getSession();
-//			session=request.getSession();
-//			session.setAttribute("isLogOn", true);
-//			session.setAttribute("userInfo",userVO);
-//			
-//			String action=(String)session.getAttribute("action");
-//			if(action!=null && action.equals("/order/orderEachGoods.do")){
-//				mav.setViewName("forward:"+action);
-//			}else{
-//				mav.setViewName("redirect:/main/main.do");	
-//			}
-//			
-//			
-//			
-//		}else{
-//			String message="아이디나  비밀번호가 틀립니다. 다시 로그인해주세요";
-//			mav.addObject("message", message);
-//			mav.setViewName("/user/loginForm");
-//		}
-		//mav.setViewName("/user/loginForm");
+		userVO=userService.login(loginMap);
+		if(userVO!= null && userVO.getUser_id()!=null){
+			HttpSession session=request.getSession();
+			session=request.getSession();
+			session.setAttribute("isLogOn", true);
+			session.setAttribute("userInfo",userVO);
+			
+			String action=(String)session.getAttribute("action");
+			if(action!=null && action.equals("/order/orderEachProduct.do")){
+				mav.setViewName("forward:"+action);
+			}else{
+				mav.setViewName("redirect:/main/main.do");	
+			}			
+		}else{
+			String message="아이디나  비밀번호가 틀립니다. 다시 로그인해주세요";
+			mav.addObject("message", message);
+			mav.setViewName("/user/loginForm");
+		}
+		mav.setViewName("/user/loginForm");
 		return mav;
 	}
 
 	@Override
+	@RequestMapping(value="/logout.do" ,method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		return null;
+		ModelAndView mav = new ModelAndView();
+		HttpSession session=request.getSession();
+		session.setAttribute("isLogOn", false);
+		session.removeAttribute("userInfo");
+		mav.setViewName("redirect:/main/main.do");
+		return mav;
 	}
-
+	
 	@Override
-	public ResponseEntity addUser(UserVO user, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	@RequestMapping(value="/addUser.do" ,method = RequestMethod.POST)
+	public ResponseEntity addUser(@ModelAttribute("userVO") UserVO _userVO,
+			                HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		String message = null;
@@ -72,7 +79,7 @@ public class UserControllerImpl implements UserController{
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		try {
-		    //userService.addUser(_userVO);
+		    userService.addUser(_userVO);
 		    message  = "<script>";
 		    message +=" alert('회원 가입을 마쳤습니다.로그인창으로 이동합니다.');";
 		    message += " location.href='"+request.getContextPath()+"/user/loginForm.do';";
@@ -88,12 +95,14 @@ public class UserControllerImpl implements UserController{
 		resEntity =new ResponseEntity(message, responseHeaders, HttpStatus.OK);
 		return resEntity;
 	}
-
+	
 	@Override
-	public ResponseEntity overlapped(String id, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-
-		return null;
+	@RequestMapping(value="/overlapped.do" ,method = RequestMethod.POST)
+	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ResponseEntity resEntity = null;
+		String result = userService.overlapped(id);
+		resEntity =new ResponseEntity(result, HttpStatus.OK);
+		return resEntity;
 	}
 
 }
