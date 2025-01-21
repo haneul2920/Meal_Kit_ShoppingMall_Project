@@ -14,14 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cookit.common.base.BaseController;
+
 @Controller("mainController")
-public class MainController {
+public class MainController extends BaseController{
 	
 	@RequestMapping(value= "/main/main.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName=(String)request.getAttribute("viewName");
-		ModelAndView mav=new ModelAndView();
-		//mav.setViewName("/main/main");
+		ModelAndView mav=new ModelAndView();		
 		mav.setViewName(viewName);
 		System.out.println("viewName : "+ viewName);
 		return mav;

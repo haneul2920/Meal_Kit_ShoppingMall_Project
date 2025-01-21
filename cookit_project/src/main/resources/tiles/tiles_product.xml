@@ -5,7 +5,7 @@
 <tiles-definitions>
     <definition name="/product/insertProduct" extends="baseLayout">
        <put-attribute name="title" value="상품 주문 페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/order/productForm.jsp" />
+       <put-attribute name="body" value="/WEB-INF/view/order/productForm.jsp" />
     </definition> 
  <!--    <definition name="/order/orderAllCartGoods" extends="baseLayout">
        <put-attribute name="title" value="상품 주문 페이지" />
