@@ -1,55 +1,49 @@
 package com.cookit.common.base;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+
+import com.cookit.product.vo.ImageFileVO;
 
 
 public abstract class BaseController  {
-//	private static final String CURR_IMAGE_REPO_PATH = "C:\\shopping\\file_repo";
-//	
-//	protected List<ImageFileVO> upload(MultipartHttpServletRequest multipartRequest) throws Exception{
-//		List<ImageFileVO> fileList= new ArrayList<ImageFileVO>();
-//		Iterator<String> fileNames = multipartRequest.getFileNames();
-//		while(fileNames.hasNext()){
-//			ImageFileVO imageFileVO =new ImageFileVO();
-//			String fileName = fileNames.next();
-//			imageFileVO.setFileType(fileName);
-//			MultipartFile mFile = multipartRequest.getFile(fileName);
-//			String originalFileName=mFile.getOriginalFilename();
-//			imageFileVO.setFileName(originalFileName);
-//			fileList.add(imageFileVO);
-//			
-//			File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileName);
-//			if(mFile.getSize()!=0){ //File Null Check
-//				if(! file.exists()){ //경로상에 파일이 존재하지 않을 경우
-//					if(file.getParentFile().mkdirs()){ //경로에 해당하는 디렉토리들을 생성
-//							file.createNewFile(); //이후 파일 생성
-//					}
-//				}
-//				mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+originalFileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
-//			}
-//		}
-//		return fileList;
-//	}
+	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookit\\file_repo";
+	
+	protected List<ImageFileVO> upload(MultipartHttpServletRequest multipartRequest) throws Exception{
+		List<ImageFileVO> fileList= new ArrayList<ImageFileVO>();
+		Iterator<String> fileNames = multipartRequest.getFileNames(); // jsp로부터 받아온 여러개의 파일의 이름(<input> name의 속성값)을 fileNames 객체에 저장
+		while(fileNames.hasNext()){ 
+			ImageFileVO imageFileVO =new ImageFileVO(); // 이미지 파일 객체 생성
+			String fileName = fileNames.next(); // 이미지 파일 객체 타입에 넣을 이름 변수를 선언하고 포인터가 가리키는 이름을 입력
+			imageFileVO.setFileType(fileName); //이미지 파일 객체의 타입을 jsp로 부터 받은 파일이름으로 지정 
+			MultipartFile mFile = multipartRequest.getFile(fileName); // 현재 포인터가 가리키고 있는 이름의 파일을 담을 객체 선언
+			String originalFileName=mFile.getOriginalFilename(); // 포인터가 가리키고 있는 이름의 파일 객체의 이름을 담을 변수 선언
+			imageFileVO.setFileName(originalFileName); // 
+			fileList.add(imageFileVO);
+			
+			File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileName);
+			if(mFile.getSize()!=0){ //File Null Check
+				if(! file.exists()){ //경로상에 파일이 존재하지 않을 경우
+					if(file.getParentFile().mkdirs()){ //경로에 해당하는 디렉토리들을 생성
+							file.createNewFile(); //이후 파일 생성
+					}
+				}
+				mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+originalFileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
+			}
+		}
+		return fileList;
+	}
 	
 //	private void deleteFile(String fileName) {
 //		File file =new File(CURR_IMAGE_REPO_PATH+"\\"+fileName);
