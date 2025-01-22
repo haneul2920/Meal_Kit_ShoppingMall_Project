@@ -11,8 +11,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width"> 
-
+<meta name="viewport" content="width=device-width">
 <link href="${contextPath}/resources/css/main.css" rel="stylesheet" type="text/css" media="screen">
 <script src="${contextPath}/resources/jquery/jquery-1.6.2.min.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/jquery.easing.1.3.js" type="text/javascript"></script>
@@ -20,26 +19,7 @@
 <script src="${contextPath}/resources/jquery/basic-jquery-slider.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/tabs.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/carousel.js" type="text/javascript"></script>
-
-<script>
-	$(document).ready(function() {
-		$('#ad_main_banner').bjqs({
-			'width' : 775,
-			'height' : 145,
-			'showMarkers' : true,
-			'showControls' : false,
-			'centerMarkers' : false
-		});
-	});
-	
-	$(function() {
-		$("#sticky").stickySidebar({
-			timer : 100,
-			easing : "easeInBounce"
-		});
-	});
-</script>
-<title>Insert title here</title>
+<title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>
 	<div id="outer_wrap">
@@ -47,10 +27,9 @@
 			<header>
 				   <tiles:insertAttribute name="header" />
 			</header>
-			<div class="clear"></div>
-  			<div class="content">
-                <tiles:insertAttribute name="body" />
-            </div>
+			<article>
+			 	<tiles:insertAttribute name="body" />
+			</article>
 			<footer>
         		<tiles:insertAttribute name="footer" />
         	</footer>

@@ -81,8 +81,6 @@ function fn_overlapped(){
        success:function (data,textStatus){
           if(data=='false'){
        	    alert("사용할 수 있는 ID입니다.");
-/*        	    $('#btnOverlapped').prop("disabled", true);
-       	    $('#_user_id').prop("disabled", true); */
        	    $('#user_id').val(_id);
           }else{
         	  alert("사용할 수 없는 ID입니다.");
@@ -107,9 +105,7 @@ function fn_overlapped(){
 				<tr class="dot_line">
 					<td class="fixed_join">아이디</td>
 					<td>
-					  <input type="text" name="user_id"  id="_user_id"  size="20" />
-
-					  
+					  <input type="text" name="user_id"  id="_user_id"  size="20" />					  
 					  <input type="button"  id="btnOverlapped" value="중복체크" onClick="fn_overlapped()" />
 					</td>
 				</tr>

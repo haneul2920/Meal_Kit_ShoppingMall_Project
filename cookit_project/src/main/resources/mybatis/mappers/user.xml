@@ -34,10 +34,14 @@
 	
 	<select id="selectOverlappedID" parameterType="String" resultType="String">
 	<![CDATA[
-	   select if(count(*) = 1, 'true', 'false')
-	   from user
-	   where user_id = #{id}
-     ]]>  
+	   SELECT CASE COUNT(*)
+        WHEN 1 THEN 'true'
+        WHEN 0 THEN 'false'
+        ELSE NULL
+    	END AS result
+		FROM user
+		WHERE user_id = #{id}
+	   ]]>
 	</select>
 	
   <insert id="insertNewUser"  parameterType="userVO">
