@@ -1,6 +1,6 @@
 package com.cookit.product.controller;
 
-
+import java.io.File;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -11,26 +11,31 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.core.internal.resources.File;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cookit.common.base.BaseController;
+import com.cookit.product.service.ProductService;
 import com.cookit.product.vo.ImageFileVO;
+import com.cookit.product.vo.ProductVO;
 import com.cookit.user.vo.UserVO;
 
 @Controller
 @RequestMapping("/product")
 public class ProductControllerImpl extends BaseController implements ProductController {
 	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookit\\file_repo";
+	@Autowired
+	private ProductService productService;
 
-	// »óÇ° µî·ÏÃ¢ ÆäÀÌÁö ¸ÅÇÎ
+	// ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	@RequestMapping(value="/goForm.do" ,method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView goForm(
@@ -42,20 +47,19 @@ public class ProductControllerImpl extends BaseController implements ProductCont
 		return mav;
 	}
 	
-	// µî·ÏÃ¢¿¡¼­ ¹Ş¾Æ¿Í µî·Ï
+	// ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¾Æ¿ï¿½ ï¿½ï¿½ï¿½
 	@Override
 	@RequestMapping(value="/insertProduct.do" ,method = {RequestMethod.POST,RequestMethod.GET})
-	public ResponseEntity insertProduct(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)  throws Exception{
+	public ResponseEntity insertProduct(@ModelAttribute("product_inform") ProductVO productVO, MultipartHttpServletRequest multipartRequest, HttpServletResponse response)  throws Exception{
 		multipartRequest.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
 		String imageFileName=null;
 		
-		
 		Map newProductMap = new HashMap();
 		Enumeration enu=multipartRequest.getParameterNames();
 		while(enu.hasMoreElements()){
-			String name=(String)enu.nextElement(); // <input>ÀÇ name ¼Ó¼º °ª
-			String value=multipartRequest.getParameter(name); // null ÆÄÀÏÀº °´Ã¼±â ¶§¹®
+			String name=(String)enu.nextElement(); // <input>ï¿½ï¿½ name ï¿½Ó¼ï¿½ ï¿½ï¿½
+			String value=multipartRequest.getParameter(name); // null ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			newProductMap.put(name,value);
 		}
 		
@@ -74,8 +78,35 @@ public class ProductControllerImpl extends BaseController implements ProductCont
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		
-		
+		try {
+			int product_id = productService.addNewProduct(newProductMap);
+			if(imageFileList!=null && imageFileList.size()!=0) {
+				for(ImageFileVO  imageFileVO:imageFileList) {
+					imageFileName = imageFileVO.getFileName();
+					File srcFile = new File(CURR_IMAGE_REPO_PATH+"\\"+"temp"+"\\"+imageFileName);
+					File destDir = new File(CURR_IMAGE_REPO_PATH+"\\"+product_id);
+					FileUtils.moveFileToDirectory(srcFile, destDir,true);
+				}
+			}
+			message= "<script>";
+			message += " alert('ìƒí’ˆì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤..');";
+			message +=" location.href='"+multipartRequest.getContextPath()+"/product/goForm.do';";
+			message +=("</script>");
+		}catch(Exception e) {
+			if(imageFileList!=null && imageFileList.size()!=0) {
+				for(ImageFileVO  imageFileVO:imageFileList) {
+					imageFileName = imageFileVO.getFileName();
+					File srcFile = new File(CURR_IMAGE_REPO_PATH+"\\"+"temp"+"\\"+imageFileName);
+					srcFile.delete();
+				}
+			}
+			
+			message= "<script>";
+			message += " alert('ìƒí’ˆ ë“±ë¡ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.');";
+			message +=" location.href='"+multipartRequest.getContextPath()+"/admin/product/goForm.do';";
+			message +=("</script>");
+			e.printStackTrace();
+		}
 		resEntity =new ResponseEntity(message, responseHeaders, HttpStatus.OK);
 		return resEntity;
 	}

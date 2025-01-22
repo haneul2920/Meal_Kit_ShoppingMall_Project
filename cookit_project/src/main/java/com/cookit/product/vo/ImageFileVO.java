@@ -1,7 +1,7 @@
 package com.cookit.product.vo;
 
 public class ImageFileVO {
-	private int goods_id;
+	private int product_id;
 	private int image_id; 
 	private String fileName; // 실제 업로드할 때의 파일이름(상품이름)
 	private String fileType; // 예) product_image or product_inform
@@ -13,15 +13,15 @@ public class ImageFileVO {
 	}
 
 
-	public int getGoods_id() {
-		return goods_id;
+	public int getProduct_id() {
+		return product_id;
 	}
 
 
 
 
-	public void setGoods_id(int goods_id) {
-		this.goods_id = goods_id;
+	public void setProduct_id(int product_id) {
+		this.product_id = product_id;
 	}
 
 
