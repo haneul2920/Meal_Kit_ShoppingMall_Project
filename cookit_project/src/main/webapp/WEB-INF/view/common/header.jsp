@@ -20,12 +20,24 @@
     <button></button>
 </div>
     
-    <!-- 아이콘 섹션 -->
-    <div id="icon-section">
-        <a href="${contextPath}/user/userForm.do">회원가입</a>
-        <a href="${contextPath}/user/loginForm.do">로그인</a>
-        <a href="${contextPath}/service_center">고객센터</a>
-    </div>
+    <div id="head_link">		
+		   <c:choose>
+		     <c:when test="${isLogOn==true and not empty userInfo }">
+			   <a href="${contextPath}/user/logout.do">로그아웃</a>
+			   <a href="${contextPath}/mypage/myPageMain.do">마이페이지</a>
+			   <a href="${contextPath}/cart/myCartList.do">장바구니</a>
+			   <a href="#">배송조회</a>
+			 </c:when>
+			 <c:otherwise>
+			   <a href="${contextPath}/user/loginForm.do">로그인</a>
+			   <a href="${contextPath}/user/memberForm.do">회원가입</a>
+			 </c:otherwise>
+			</c:choose>
+			   <a href="#">고객센터</a>
+      <c:if test="${isLogOn==true and userInfo.user_id =='admin' }">  
+	   	   <a class="no_line" href="${contextPath}/admin/product/adminProductMain.do">관리자페이지</a>
+	    </c:if>
+	</div>
 </div>
 
 <!-- 메뉴 -->
