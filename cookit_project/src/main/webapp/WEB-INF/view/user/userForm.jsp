@@ -10,8 +10,17 @@
 <title>회원 가입 창</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+function updateEmailDomain() {
+    var emailSelect = document.getElementById("email_select");
+    var email2 = document.getElementById("email2");
 
-
+    // 선택된 옵션 값이 '직접입력'이 아닐 경우, 이메일2 입력란에 도메인 자동 입력
+    if (emailSelect.value !== "non") {
+      email2.value = emailSelect.value;
+    } else {
+      email2.value = ""; // '직접입력' 선택시 이메일2 입력란 초기화
+    }
+  }
 function execDaumPostcode() {
 	  // Daum 주소 검색 API 객체 생성
 	  var postcode = new daum.Postcode({
@@ -105,21 +114,21 @@ function fn_overlapped(){
 				<tr class="dot_line">
 					<td class="fixed_join">아이디</td>
 					<td>
-					  <input type="text" name="user_id"  id="_user_id"  size="20" />					  
+					  <input type="text" name="user_id"  id="_user_id"  size="20" required/>					  
 					  <input type="button"  id="btnOverlapped" value="중복체크" onClick="fn_overlapped()" />
 					</td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">비밀번호</td>
-					<td><input name="user_pwd" type="password" size="20" /></td>
+					<td><input name="user_pwd" type="password" size="20" required/></td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">이름</td>
-					<td><input name="username" type="text" size="20" /></td>
+					<td><input name="username" type="text" size="20" required/></td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">성별</td>
-					<td><input type="radio" name="gender" value="female" />
+					<td><input type="radio" name="gender" value="female" required/>
 						여성<span style="padding-left:120px"></span>
 						 <input type="radio" name="gender" value="male" checked />남성
 					</td>
@@ -129,12 +138,12 @@ function fn_overlapped(){
 					<td><select  name="phone_num">
 							<option>없음</option>
 							<option selected value="010">010</option>							
-					</select> - <input size="10px"  type="text" name="phone_num"> - <input size="10px"  type="text"name="phone_num"><br> <br> 
+					</select> - <input size="10px"  type="text" name="phone_num" required> - <input size="10px"  type="text"name="phone_num" required><br> <br> 
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">이메일<br>(e-mail)</td>
-					<td><input size="10px"   type="text" name="email1" /> @ <input  size="10px"  type="text" name="email2" /> 
-						  <select name="email2" onChange=""	title="직접입력">
+					<td><input size="10px"   type="text" name="email1" required/> @ <input  size="10px"  type="text" name="email2" id="email2" required/> 
+						  <select name="email_select" id="email_select" onChange="updateEmailDomain()">
 									<option value="non">직접입력</option>
 									<option value="naver.com">naver.com</option>
 									<option value="hanmail.net">hanmail.net</option>
@@ -148,16 +157,17 @@ function fn_overlapped(){
 									<option value="empal.com">empal.com</option>
 									<option value="korea.com">korea.com</option>
 									<option value="freechal.com">freechal.com</option>
+							</select>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="zipcode" size="10" > <a href="javascript:execDaumPostcode()">우편번호검색</a>
+					   <input type="text" id="zipcode" name="zipcode" size="10" required> <a href="javascript:execDaumPostcode()">우편번호검색</a>
 					  <br>
 					  <p> 
-					  도로명 주소: <input type="text" id="roadAddress" name="roadAddress" size="50"><br><br>
-					  지번 주소:<br><input type="text" id="jibunAddress"  name="jibunAddress" size="50"><br><br>
-					  나머지 주소: <input type="text"  name="namujiAddress" size="50" />
+					  도로명 주소: <input type="text" id="roadAddress" name="roadAddress" size="50" required><br><br>
+					  지번 주소:<br><input type="text" id="jibunAddress"  name="jibunAddress" size="50" required><br><br>
+					  나머지 주소: <input type="text"  name="namujiAddress" size="50" required/>
 					 <!--   <span id="guide" style="color:#999"></span> -->
 					   </p>
 					</td>
