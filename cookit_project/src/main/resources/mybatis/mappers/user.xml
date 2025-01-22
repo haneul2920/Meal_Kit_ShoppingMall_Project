@@ -33,9 +33,15 @@
 	</select>
 	
 	<select id="selectOverlappedID" parameterType="String" resultType="String">
-	   select decode(count(*),1, 'true', 0, 'false')
-	   from user
-	   where user_id = #{id}
+	<![CDATA[
+	   SELECT CASE COUNT(*)
+        WHEN 1 THEN 'true'
+        WHEN 0 THEN 'false'
+        ELSE NULL
+    	END AS result
+		FROM user
+		WHERE user_id = #{id}
+	   ]]>
 	</select>
 	
   <insert id="insertNewUser"  parameterType="userVO">
