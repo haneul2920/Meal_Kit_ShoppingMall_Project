@@ -15,16 +15,14 @@
 	<div>
 		<div class="section info">
 			<h2>회원 정보</h2>
-			<p><strong>이름: ${user.name}</strong></p>
-			<p><strong>이메일: ${user.name}</strong></p>
-			<p><strong>전화번호: ${user.name}</strong></p>
+			<p><strong>이름: ${user.username}</strong></p>
+			<p><strong>이메일: ${user.email1 + user.email2}</strong></p>
+			<p><strong>전화번호: ${user.phone_num}</strong></p>
 			
 			<div class="section points">
-				<h2>포인트 및 쿠폰</h2>
-				<p><strong>보유 포인트: </strong>${user.points}.</p>
+				<h2>포인트</h2>
+				<p><strong>보유 포인트: </strong>${user.cash_point}.</p>
 				<a href="${contextPath}/point/pointHistory.do" class="button">포인트 내역</a>
-				<p><strong>보유 쿠폰: </strong>${user.points}.</p>
-				<a href="${contextPath}/coupon/couponHistory.do" class="button">쿠폰 내역</a>
 			</div>
 			
 			<div class="section account">

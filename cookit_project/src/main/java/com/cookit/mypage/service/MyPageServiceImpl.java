@@ -8,18 +8,12 @@ import com.cookit.mypage.vo.MyPageVO;
 
 @Service
 public class MyPageServiceImpl implements MyPageService {
-
     @Autowired
     private MyPageDAO myPageDAO;
 
     @Override
     public MyPageVO getUserInfo(int userId) {
         return myPageDAO.getUserInfo(userId);
-    }
-
-    @Override
-    public void updateUserInfo(MyPageVO myPageVO) {
-        myPageDAO.updateUserInfo(myPageVO);
     }
 }
 

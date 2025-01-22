@@ -104,5 +104,6 @@ public class UserControllerImpl extends BaseController implements UserController
 		resEntity =new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
 	}
+	
 
 }

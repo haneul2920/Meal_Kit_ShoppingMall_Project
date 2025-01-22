@@ -8,7 +8,6 @@ import com.cookit.mypage.vo.MyPageVO;
 
 @Repository
 public class MyPageDAOImpl implements MyPageDAO {
-
     @Autowired
     private SqlSession sqlSession;
 
@@ -17,11 +16,6 @@ public class MyPageDAOImpl implements MyPageDAO {
     @Override
     public MyPageVO getUserInfo(int userId) {
         return sqlSession.selectOne(NAMESPACE + "getUserInfo", userId);
-    }
-
-    @Override
-    public void updateUserInfo(MyPageVO myPageVO) {
-        sqlSession.update(NAMESPACE + "updateUserInfo", myPageVO);
     }
 }
 

@@ -4,6 +4,7 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
        
 <tiles-definitions>
+
 	<definition name="baseLayout"
 		template="/WEB-INF/view/common/layout.jsp">
 		<put-attribute name="title" value="레이아웃 페이지" />
@@ -13,8 +14,13 @@
 	</definition>
 	
     <definition name="/mypage/myPageMain" extends="baseLayout">
-       <put-attribute name="title" value="수정페이지 메인" />
+       <put-attribute name="title" value="회원페이지 메인" />
        <put-attribute name="body" value="/WEB-INF/view/mypage/myPageMain.jsp" />
+    </definition>
+    
+        <definition name="/mypage/myUpdateInfo" extends="baseLayout">
+       <put-attribute name="title" value="수정페이지 메인" />
+       <put-attribute name="body" value="/WEB-INF/view/mypage/myUpdateInfo.jsp" />
     </definition>
 
 </tiles-definitions>

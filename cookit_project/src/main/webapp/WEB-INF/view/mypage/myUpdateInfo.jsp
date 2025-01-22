@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
-    <%@ include file="/WEB-INF/view/common/layout.jsp" %>
-<!DOCTYPE html>
+    pageEncoding="utf-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<%
+  request.setCharacterEncoding("UTF-8");
+%> 
 <html>
 <head>
 <meta charset="utf-8">
@@ -38,23 +42,23 @@
                 <h2>사용자 정보 수정</h2>
                 <div class="form-group">
                     <label>아이디:</label>
-                    <input type="text" name="name" value="${userInfo.name}" readonly>
+                    <input type="text" name="name" value="${user.user_id}" readonly>
                 </div>
                 <div class="form-group">
                     <label>사용자 이름:</label>
-                    <input type="text" name="username" value="${userInfo.username}">
+                    <input type="text" name="username" value="${user.username}">
                 </div>
                 <div class="form-group">
                     <label>전화번호:</label>
-                    <input type="text" name="phoneNum" value="${userInfo.phoneNum}">
+                    <input type="text" name="phoneNum" value="${user.phone_num}">
                 </div>
                 <div class="form-group">
                     <label>이메일:</label>
-                    <input type="email" name="email" value="${userInfo.email}">
+                    <input type="email" name="email" value="${user.email1 + user.email2}">
                 </div>
                 <div class="form-group">
                     <label>주소:</label>
-                    <input type="text" name="address" value="${userInfo.address}">
+                    <input type="text" name="address" value="${user.roadAddress}">
                 </div>
             </div>
             

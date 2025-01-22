@@ -30,7 +30,7 @@
 			 </c:when>
 			 <c:otherwise>
 			   <a href="${contextPath}/user/loginForm.do">로그인</a>
-			   <a href="${contextPath}/user/memberForm.do">회원가입</a>
+			   <a href="${contextPath}/user/userForm.do">회원가입</a>
 			 </c:otherwise>
 			</c:choose>
 			   <a href="#">고객센터</a>
