@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>장바구니 페이지</title>
 </head>
 <body>
 	<table class="list view">

@@ -27,91 +27,58 @@
         disableOnInteraction: false,
       },
     });
-
-    // Play/Pause 버튼 동작
-    document.querySelector(".swiper-button-play").addEventListener("click", function () {
-      swiper.autoplay.start();
-      this.style.display = "none";
-      document.querySelector(".swiper-button-pause").style.display = "inline-block";
-    });
-
-    document.querySelector(".swiper-button-pause").addEventListener("click", function () {
-      swiper.autoplay.stop();
-      this.style.display = "none";
-      document.querySelector(".swiper-button-play").style.display = "inline-block";
-    });
   });
 </script>
 <style>
-  .swiper-container {
-    width: 100%;
-    height: 500px;
-  }
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+.swiper-container {
+  width: 100vw;
+  height: 450px;
+  margin: 0 auto;
+  padding: 0;
+}
 
-  .swiper-slide img {
-    width: 100%;
-    height: auto;
-  }
+.swiper-wrapper {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
 
-  .swiper-button-next, .swiper-button-prev {
-    color: #fff;
-  }
+.swiper-slide {
+  margin: 0;
+  padding: 0;
+}
 
-  .swiper-pagination {
-    color: #fff;
-  }
+.inner-div-main-swiper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-  .swiper-button-play, .swiper-button-pause {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
 </style>
+<html>
+	<body>
+		<div class="swiper-container">
+		  <div class="swiper-wrapper">
+		    <div class="swiper-slide">
+		      <img src="${contextPath}/resources/image/banner_img1.jpg" alt="메인비쥬얼이미지" />
+		    </div>
+		    <div class="swiper-slide">
+		      <img src="${contextPath}/resources/image/banner_img2.jpg" alt="메인비쥬얼이미지" />
+		    </div>
+		    <div class="swiper-slide">
+		      <img src="${contextPath}/resources/image/banner_img3.jpg" alt="메인비쥬얼이미지" />
+		    </div>
+		  </div>
+		</div>
+	</body>
+</html>
 
-<div class="swiper-container main-slide swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-5760px, 0px, 0px);"><div class="swiper-slide swiper-slide-duplicate" style="width: 1920px;" data-swiper-slide-index="2">
-                            <div class="inner-div-main-swiper">
-                                    <a href="javascript:;" onclick="#" class="btn-back">
-                                        <img src="${contextPath}/resources/image/banner_img1.jpg" alt="메인비쥬얼이미지">
-                                    </a>
-                                </div>
-                            </div>
-                    <div class="swiper-slide" style="width: 1920px;" data-swiper-slide-index="0">
-                            <div class="inner-div-main-swiper">
-                                    <a href="javascript:;" onclick="#" class="btn-back">
-                                        <img src="${contextPath}/resources/image/banner_img2.jpg" alt="메인비쥬얼이미지">
-                                    </a>
-                                </div>
-                            </div>
-                    <div class="swiper-slide swiper-slide-prev" style="width: 1920px;" data-swiper-slide-index="1">
-                            <div class="inner-div-main-swiper">
-                                    <a href="javascript:;" onclick="#" class="btn-back">
-                                        <img src="${contextPath}/resources/image/banner_img3.jpg" alt="메인비쥬얼이미지">
-                                    </a>
-                                </div>
-                            </div>
-                   </div><!--// swiper-wrapper -->
-                <div class="main-slide-bottom">
-                    <div class="inner">
-                        <div class="main-slide-btns">
-                            <div class="swiper-pagination swiper-pagination-fraction"><span class="swiper-pagination-current">3</span>｜<span class="swiper-pagination-total">11</span></div>
-                            <a href="#main-event" class="btn-slide-all ui-open-pop"><span class="blind">이벤트 전체보기</span></a>
-                        </div><!--// main-slide-btns -->
-                        <div class="main-slide-playctrl">
-                            <button type="button" class="swiper-button-pause"><span class="blind">PLAY</span></button>
-                            <button type="button" class="swiper-button-play" style="display: none;"><span class="blind">STOP</span></button>
-                        </div>
-                        <!--<button type="button" class="swiper-button-ctrl pause"></button>-->
-                    </div>
-                </div><!--// main-slide-bottom -->
-            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+
+
