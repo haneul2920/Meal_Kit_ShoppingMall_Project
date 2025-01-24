@@ -19,5 +19,7 @@ public interface UserController {
 	public ResponseEntity  addUser(@ModelAttribute("user") UserVO user,
             HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity   overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
-
+	
+	public ModelAndView showUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public void updateUser(UserVO userVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

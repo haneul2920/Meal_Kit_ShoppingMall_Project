@@ -62,6 +62,17 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 		return mav;
 	}
 	
+	@Override
+	@RequestMapping(value="/adminProductMain.do" ,method = {RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView goAdminProdcutMain(
+			                 HttpServletRequest request, HttpServletResponse response)  throws Exception{
+		String viewName=(String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		System.out.println("viewName : "+ viewName);
+		return mav;
+	}
+	
 	// �Էµ� �����͸� db�� �Է��ϵ��� ����
 	@Override
 	@RequestMapping(value="/insertProduct.do" ,method = {RequestMethod.POST,RequestMethod.GET})

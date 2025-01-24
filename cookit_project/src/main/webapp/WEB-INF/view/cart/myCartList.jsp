@@ -1,48 +1,102 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<%
+  request.setCharacterEncoding("UTF-8");
+%>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<title>ì¥ë°”êµ¬ë‹ˆ</title>
+    <style>
+        .cart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .cart-items {
+            flex: 3;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .cart-summary {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .cart-summary button {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .cart-summary button:hover {
+            background-color: darkorange;
+        }
+        .cart-totals {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        .cart-totals div {
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-	<table class="list view">
-		<tr style="background: #33ff00">
-		<td class="fixed">±¸ºĞ</td>
-		<td colspan=2 class="fixed">»óÇ°¸í</td>
-		<td>Á¤°¡</td>
-		<td>ÆÇ¸Å°¡</td>
-		<td>¼ö·®</td>
-		<td>ÇÕ°è</td>
-		<td>ÁÖ¹®</td>
-		</tr>
-		
+	<h2>ì¥ë°”êµ¬ë‹ˆ</h2>
+
+	<div id="cart">
 		<c:choose>
-			<c:when test="${empty myCartList}">
-				<tr>
-					<td colspan=8 class="fixed">
-						<strong>Àå¹Ù±¸´Ï°¡ ºñ¾îÀÖ½À´Ï´Ù.</strong>
-					</td>
-				</tr>
+			<c:when test="${empty cartItems}">
+				<p>ì¥ë°”êµ¬ë‹ˆì— ë‹´ê¸´ ìƒí’ˆì´ ì—†ìŠµë‹ˆë‹¤.</p>
+				<input type="button" value="ì‡¼í•‘ê³„ì†í•˜ê¸°"
+					onclick="location.href='${contextPath}/main/main.do'">
 			</c:when>
+			<c:otherwise>
+				<h3>ì¥ë°”êµ¬ë‹ˆ ìƒí’ˆ</h3>
+				<c:forEach var="item" items="${cartItems}">
+					<div class="cart-item">
+						<p>ìƒí’ˆëª…: ${item.product_name}</p>
+						<p>ê°€ê²©: ${item.price}ì›</p>
+						<p>ìˆ˜ëŸ‰: ${item.product_amount}</p>
+					</div>
+				</c:forEach>
+
+				<div class="cart-summary">
+					<h3>ê²°ì œ ì˜ˆì • ê¸ˆì•¡</h3>
+					<p>ìƒí’ˆê¸ˆì•¡: ${totalPrice}ì›</p>
+					<p>ë°°ì†¡ë¹„: ${shippingFee}ì›</p>
+					<p>
+						<strong>ì´ ê²°ì œ ì˜ˆì • ê¸ˆì•¡: ${finalPrice}ì›</strong>
+					</p>
+					<button onclick="location.href='${contextPath}/checkout.do'">ì£¼ë¬¸í•˜ê¸°</button>
+				</div>
+
+				<div class="cart-totals">
+					<div>ì¥ë°”êµ¬ë‹ˆ ì´í•©: ${totalPrice}ì›</div>
+					<div>+</div>
+					<div>ë°°ì†¡ë¹„: ${shippingFee}ì›</div>
+					<div>=</div>
+					<div>
+						<strong>ì´í•© ê°€ê²©: ${finalPrice}ì›</strong>
+					</div>
+				</div>
+
+			</c:otherwise>
 		</c:choose>
-		
-	</table>
-	
-		<table  width=80%   class="list_view" style="background:#cacaff">
-	<tbody>
-	     <tr  align=center  class="fixed" >
-	       <td class="fixed">ÃÑ »óÇ°¼ö </td>
-	       <td>ÃÑ »óÇ°±İ¾×</td>
-	       <td>  </td>
-	       <td>ÃÑ ¹è¼Ûºñ</td>
-	       <td>  </td>
-	       <td>ÃÑ ÇÒÀÎ ±İ¾× </td>
-	       <td>  </td>
-	       <td>ÃÖÁ¾ °áÁ¦±İ¾×</td>
-	     </tr>
-	</tbody>
-	     </table>
+
+	</div>
 </body>
 </html>

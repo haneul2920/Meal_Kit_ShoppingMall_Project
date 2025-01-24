@@ -32,4 +32,20 @@ public class UserServiceImpl implements UserService {
 	public String overlapped(String id) throws Exception{
 		return userDAO.selectOverlappedID(id);
 	}
+	
+    @Override
+    public UserVO getUserInfo(String userId) {
+        return userDAO.selectUserInfo(userId);
+    }
+    
+    @Override
+    public UserVO getUserById(String userId) throws Exception {
+        return userDAO.selectUserById(userId);
+    }
+
+    @Override
+    public void updateUser(UserVO userVO) throws Exception {
+        userDAO.updateUser(userVO);
+    }
+    
 }

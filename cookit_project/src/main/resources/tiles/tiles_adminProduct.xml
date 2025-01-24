@@ -12,10 +12,17 @@
 			value="/WEB-INF/view/common/footer.jsp" />
 		<put-attribute name="body" value="" />
 	</definition>
+	
 	<definition name="/admin/product/goForm" extends="baseLayout">
-		<put-attribute name="title" value="상품 주문 페이지" />
+		<put-attribute name="title" value="상품 등록 페이지" />
 		<put-attribute name="body"
 			value="/WEB-INF/view/admin/product/goForm.jsp" />
+	</definition>
+	
+	<definition name="/admin/product/goForm" extends="baseLayout">
+		<put-attribute name="title" value="관리자 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/view/admin/product/adminProductMain.jsp" />
 	</definition>
 	<!-- <definition name="/order/orderAllCartGoods" extends="baseLayout"> <put-attribute 
 		name="title" value="상품 주문 페이지" /> <put-attribute name="body" value="/WEB-INF/views/order/orderGoodsForm.jsp" 

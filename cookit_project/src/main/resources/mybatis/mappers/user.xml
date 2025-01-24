@@ -78,4 +78,25 @@
                                       
    ]]>      
   </insert>
+  
+    <select id="selectUserInfo" parameterType="String" resultType="com.cookit.user.vo.UserVO">
+        SELECT * 
+        FROM user_table 
+        WHERE user_id = #{user_id}
+    </select>
+    
+        <select id="selectUserById" parameterType="string" resultType="userVO">
+        SELECT * FROM user WHERE user_id = #{user_id}
+    </select>
+    
+    <update id="updateUser" parameterType="userVO">
+        UPDATE user
+    SET username = #{username},
+        roadAddress = #{roadAddress}, 
+        jibunAddress = #{jibunAddress},
+        namujiAddress = #{namujiAddress},
+        user_pwd = #{user_pwd}           
+    WHERE user_id = #{user_id}
+    </update>
+    
 </mapper>
