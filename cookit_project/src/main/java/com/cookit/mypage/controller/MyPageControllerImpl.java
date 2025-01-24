@@ -22,42 +22,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cookit.mypage.service.MyPageService;
 import com.cookit.mypage.vo.MyPageVO;
+import com.cookit.user.vo.UserVO;
 
-@Controller()
-@RequestMapping(value="/mypage")
+@Controller
+
+@RequestMapping(value = "/mypage")
 public class MyPageControllerImpl {
-	
-	@Autowired
-    private MyPageService myPageService;
-	
-	@RequestMapping(value= "/myPageMain.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String viewName=(String)request.getAttribute("viewName");
-		ModelAndView mav=new ModelAndView();		
-		mav.setViewName(viewName);
-		System.out.println("viewName : "+ viewName);
-		return mav;
-	}
-	
-	  @RequestMapping(value= "/myUpdateInfo.do",method={RequestMethod.POST,RequestMethod.GET})
-	  public ModelAndView updateInfo(HttpServletRequest request, HttpServletResponse response) throws Exception{
-      String viewName=(String)request.getAttribute("viewName");
-	  ModelAndView mav=new ModelAndView(); mav.setViewName(viewName);
-	  System.out.println("viewName : "+ viewName); return mav; }
-	  
-	  @RequestMapping("/myPageMain.do")
-	    public ModelAndView myPageMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	        HttpSession session = request.getSession();
-	        MyPageVO userVO = (MyPageVO) session.getAttribute("user"); 
 
-	        ModelAndView mav = new ModelAndView();
-	        if (userVO != null) {
-	            int userId = Integer.parseInt(userVO.getUser_id());
-	            MyPageVO userInfo = myPageService.getUserInfo(userId); 
-	            mav.addObject("user", userInfo);
-	        }
-	        mav.setViewName("mypage/myPageMain");
-	        return mav;
+	@RequestMapping(value = "/myPageMain.do", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    HttpSession session = request.getSession();
+	    UserVO userInfo = (UserVO) session.getAttribute("userInfo"); // 세션에서 사용자 정보 가져오기
+
+	    ModelAndView mav = new ModelAndView();
+	    String viewName = (String) request.getAttribute("viewName");
+	    mav.setViewName(viewName);
+
+	    if (userInfo != null) {
+	        mav.addObject("userInfo", userInfo); // 모델에 사용자 정보 추가
 	    }
-	  
+
+	    System.out.println("viewName : " + viewName);
+	    return mav;
+	}
+
 }
+ 

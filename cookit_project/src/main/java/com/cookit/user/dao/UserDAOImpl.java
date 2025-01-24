@@ -30,6 +30,20 @@ public class UserDAOImpl  implements UserDAO{
 		String result =  sqlSession.selectOne("mapper.user.selectOverlappedID",id);
 		return result;
 	}
+
+	@Override
+	public UserVO selectUserInfo(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
+	@Override
+	public UserVO selectUserById(String userId) throws Exception{
+		return sqlSession.selectOne("mapper.user.selectUserById", userId);
+	}
 	
+	@Override
+	public void updateUser(UserVO userVO) throws Exception{
+		sqlSession.update("mapper.user.updateUser", userVO);
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,7 @@ import com.cookit.user.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserControllerImpl extends BaseController implements UserController{
+	
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -105,5 +107,48 @@ public class UserControllerImpl extends BaseController implements UserController
 		return resEntity;
 	}
 	
+    @RequestMapping(value = "/mypage", method = RequestMethod.GET)
+    public ModelAndView myPage(HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        UserVO userInfo = userService.getUserInfo(userId);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("myPageMain");
+        mav.addObject("userInfo", userInfo);
+        return mav;
+    }
+    
+    @Override
+    @RequestMapping(value = "/updateForm", method = RequestMethod.GET)
+    public ModelAndView showUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String userId = request.getParameter("userId");
+        UserVO user = userService.getUserById(userId);
+        ModelAndView mav = new ModelAndView("/user/updateForm");
+        mav.addObject("user", user);
+        return mav;
+    }
 
+    @Override
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    public void updateUser(@ModelAttribute UserVO userVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String newPassword = request.getParameter("password2");
+        if (newPassword != null && !newPassword.isEmpty()) {
+            userVO.setUser_pwd(newPassword);
+        }
+        userService.updateUser(userVO);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("loginUser", userVO);
+
+        System.out.println("Updated Session User: " + session.getAttribute("loginUser"));
+
+        // JavaScript alert 창 및 리다이렉트 처리
+        response.setContentType("text/html; charset=UTF-8");
+        response.getWriter().write(
+            "<script>" +
+            "alert('회원 정보가 수정되었습니다.');" +
+            "location.href='" + request.getContextPath() + "/main/main.do';" +
+            "</script>"
+        );
+    }
+	
 }
