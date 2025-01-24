@@ -1,5 +1,6 @@
 package com.cookit.product.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.cookit.product.vo.ImageFileVO;
+import com.cookit.product.vo.ProductInformVO;
+import com.cookit.product.vo.ProductVO;
 
-//import com.bookshop01.goods.vo.GoodsVO;
-//import com.bookshop01.goods.vo.ImageFileVO;
+
 //import com.bookshop01.order.vo.OrderVO;
 
 @Repository("ProductDAO")
@@ -20,18 +21,39 @@ public class ProductDAOImpl  implements ProductDAO{
 	private SqlSession sqlSession;
 	
 	@Override
-	public int insertProduct(Map newProductMap) throws DataAccessException {
-		sqlSession.insert("mapper.product.insertProduct",newProductMap);
-		return Integer.parseInt((String)newProductMap.get("product_id"));
+	public int insertProduct(ProductVO productVO) throws DataAccessException {
+		sqlSession.insert("mapper.product.insertProduct",productVO);
+		String product_name = productVO.getProduct_name();
+		int product_id = sqlSession.selectOne("mapper.product.selectProductId", product_name);
+		return product_id;
 	}
 	
 	@Override
-	public void insertProductImageFile(List fileList)  throws DataAccessException {
-		for(int i=0; i<fileList.size();i++){
-			ImageFileVO imageFileVO=(ImageFileVO)fileList.get(i);
-			sqlSession.insert("mapper.product.insertProductImageFile",imageFileVO);
-		}
+	public int findCategory(String category_name) throws DataAccessException {
+		System.out.println(category_name);
+		int category_id =sqlSession.selectOne("mapper.product.findCategory", category_name);
+		System.out.println(category_id);
+		return category_id;
 	}
+	
+	@Override
+	public void insertInform(ProductInformVO productInformVO) throws DataAccessException{
+		sqlSession.insert("mapper.product.insertInform", productInformVO);
+	}
+	
+	@Override
+	public List<ProductVO> selectAllProductList() throws DataAccessException {
+		List<ProductVO> productList=(ArrayList)sqlSession.selectList("mapper.product.selectAllProductList");
+	   return productList;	
+     
+	}
+//	@Override
+//	public void insertProductImageFile(List fileList)  throws DataAccessException {
+//		for(int i=0; i<fileList.size();i++){
+//			ImageFileVO imageFileVO=(ImageFileVO)fileList.get(i);
+//			sqlSession.insert("mapper.product.insertProductImageFile",imageFileVO);
+//		}
+//	}
 //		
 //	@Override
 //	public List<GoodsVO>selectNewGoodsList(Map condMap) throws DataAccessException {

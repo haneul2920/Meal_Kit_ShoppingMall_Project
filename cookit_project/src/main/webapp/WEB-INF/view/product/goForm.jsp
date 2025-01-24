@@ -12,11 +12,20 @@
 <script type="text/javascript">
 	//상품 등록 함수
 	function fn_add_new_goods(obj) {
-		var mainImageInput = document.querySelector("input[name='file1']"); // 첫 번째 파일 입력 필드
-		if (!mainImageInput || !mainImageInput.value) {
-			alert("메인 이미지는 반드시 첨부해야 합니다.");
+	 	var ImageInput1 = document.querySelector("input[name='product_image_']"); // 첫 번째 파일 입력 필드
+	 	var ImageInput2 = document.querySelector("input[name='product_inform_']"); // 두 번째 파일 입력 필드
+		if (!ImageInput1 || !ImageInput2 || !ImageInput1.value || !ImageInput2.value) {
+			alert("상품 이미지와 상세정보 이미지 모두를 첨부해야 합니다.");
 			return;
-		}
+		} 
+/* 	 	var inputs = document.querySelectorAll("#tab2 input");
+
+	        // 각 input 요소를 순회하며 값이 비어 있는 경우 기본값 설정
+	        inputs.forEach(function(input, index) {
+	            if (!input.value.trim()) { // 값이 비어 있는 경우
+	                input.value = 'default';
+	            }
+	        }); */
 
 		// 폼 제출
 		obj.submit();
@@ -52,12 +61,16 @@
 							</tr>
 							<tr>
 								<td>상품가격</td>
-								<td><input name="pirce" type="text" size="40" /></td>
+								<td><input name="price" type="text" size="40" /></td>
+							</tr>
+							<tr>
+								<td>상품이름</td>
+								<td><input name="product_name" type="text" size="40" /></td>
 							</tr>
 
 							<tr>
 								<td>상품 재고</td>
-								<td><input name="goods_amount" type="text" size="40" /></td>
+								<td><input name="product_amount" type="text" size="40" /></td>
 							</tr>
 						</table>
 					</div>
@@ -74,15 +87,15 @@
 							</tr>
 							<tr>
 								<td>원재료명 및 함량</td>
-								<td><input name="ingredient_info" type="text" size="40" /></td>
+								<td><input name="ingredient_info" type="text" size="40" value="상세페이지 참조"/></td>
 							</tr>
 							<tr>
 								<td>유전자재조합식품 여부</td>
-								<td><input name="GMO_status" type="text" size="40" /></td>
+								<td><input name="GMO_status" type="text" size="40" value="해당사항 없음"/></td>
 							</tr>
 							<tr>
 								<td>영양성분</td>
-								<td><input name="nutrition_facts" type="text" size="40" /></td>
+								<td><input name="nutrition_facts" type="text" size="40" value="해당사항 없음"/></td>
 							</tr>
 							<tr>
 								<td>생산자</td>
@@ -94,7 +107,7 @@
 							</tr>
 							<tr>
 								<td>중량</td>
-								<td><input name="product_weight" type="text" size="40" /></td>
+								<td><input name="product_weight" type="text" size="40" value="상세페이지 참조"/></td>
 							</tr>
 							<tr>
 								<td>배송가능지역</td>
@@ -102,23 +115,23 @@
 							</tr>
 							<tr>
 								<td>배송방법</td>
-								<td><input name="delivery_method" type="text" size="40" /></td>
+								<td><input name="delivery_method" type="text" size="40" value="택배"/></td>
 							</tr>
 							<tr>
 								<td>수입식품 문구</td>
-								<td><input name="import_notice" type="text" size="40" /></td>
+								<td><input name="import_notice" type="text" size="40" value="해당사항 없음"/></td>
 							</tr>
 							<tr>
 								<td>영유아식 또는 체중조절식품 등에 해당 여부</td>
-								<td><input name="special_category" type="text" size="40" /></td>
+								<td><input name="special_category" type="text" size="40" value="해당사항 없음"/></td>
 							</tr>
 							<tr>
 								<td>소비자 상담번호</td>
-								<td><input name="cusomer_service" type="text" size="40" /></td>
+								<td><input name="customer_service" type="text" size="40" value="쿠키트 고객센터 (1668-7788"/></td>
 							</tr>
 							<tr>
 								<td>주의사항</td>
-								<td><input name="warnings" type="text" size="40" /></td>
+								<td><input name="warnings" type="text" size="40" value="상세페이지 참조"/></td>
 							</tr>
 						</table>
 					</div>
@@ -128,9 +141,9 @@
 						<table>
 							<tr>
 								<td align="right">상품 이미지 첨부</td>
-								<td align="left"><input type="file" value="파일 추가"  name="product_image" onClick="fn_addFile()" /></td>
+								<td align="left"><input type="file" name="product_image_"  /></td>
 								<td align="right">상품 세부정보 이미지 첨부</td>
-								<td align="left"><input type="file" value="파일 추가" name="product_inform" onClick="fn_addFile()" /></td>
+								<td align="left"><input type="file" name="product_inform_"  /></td>
 							</tr>
 						</table>
 					</div>

@@ -1,6 +1,8 @@
 package com.cookit.product.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +11,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cookit.product.dao.ProductDAO;
-import com.cookit.product.vo.ImageFileVO;
+import com.cookit.product.vo.ProductInformVO;
+import com.cookit.product.vo.ProductVO;
+//import com.cookit.admin.product.dao.AdminproductDAO;
 
-//import com.cookit.admin.goods.dao.AdminGoodsDAO;
-//import com.bookshop01.goods.vo.GoodsVO;
-//import com.bookshop01.goods.vo.ImageFileVO;
-//import com.bookshop01.order.vo.OrderVO;
+
 
 
 @Service("ProductService")
@@ -24,62 +25,77 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDAO productDAO;
 	
 	@Override
-	public int addNewProduct(Map newProductMap) throws Exception{
-		int product_id = productDAO.insertProduct(newProductMap);
-		ArrayList<ImageFileVO> imageFileList = (ArrayList)newProductMap.get("imageFileList");
-		for(ImageFileVO imageFileVO : imageFileList) {
-			imageFileVO.setProduct_id(product_id);
-		}
-		productDAO.insertProductImageFile(imageFileList);
+	public int addNewProduct(ProductVO productVO) throws Exception{
+		int product_id = productDAO.insertProduct(productVO);
 		return product_id;
 	}
+	
+	@Override
+	public int findCategoryId(String category_name) throws Exception{
+		int category_id = productDAO.findCategory(category_name);
+
+		return category_id;
+	}
+	
+	@Override
+	public void insertInform(ProductInformVO productInformVO) throws Exception{
+		productDAO.insertInform(productInformVO);
+	}
+	
+	@Override
+	public List<ProductVO> listAllProduct() throws Exception {
+		List<ProductVO> productList=productDAO.selectAllProductList();
+		return productList;
+	}
+	
+	
 //	
 //	@Override
-//	public List<GoodsVO> listNewGoods(Map condMap) throws Exception{
-//		return adminGoodsDAO.selectNewGoodsList(condMap);
+//	public List<productVO> listNewproduct(Map condMap) throws Exception{
+//		return adminproductDAO.selectNewproductList(condMap);
 //	}
 //	@Override
-//	public Map goodsDetail(int goods_id) throws Exception {
-//		Map goodsMap = new HashMap();
-//		GoodsVO goodsVO=adminGoodsDAO.selectGoodsDetail(goods_id);
-//		List imageFileList =adminGoodsDAO.selectGoodsImageFileList(goods_id);
-//		goodsMap.put("goods", goodsVO);
-//		goodsMap.put("imageFileList", imageFileList);
-//		return goodsMap;
+//	public Map productDetail(int product_id) throws Exception {
+//		Map productMap = new HashMap();
+//		productVO productVO=adminproductDAO.selectproductDetail(product_id);
+//		List imageFileList =adminproductDAO.selectproductImageFileList(product_id);
+//		productMap.put("product", productVO);
+//		productMap.put("imageFileList", imageFileList);
+//		return productMap;
 //	}
 //	@Override
-//	public List goodsImageFile(int goods_id) throws Exception{
-//		List imageList =adminGoodsDAO.selectGoodsImageFileList(goods_id);
+//	public List productImageFile(int product_id) throws Exception{
+//		List imageList =adminproductDAO.selectproductImageFileList(product_id);
 //		return imageList;
 //	}
 //	
 //	@Override
-//	public void modifyGoodsInfo(Map goodsMap) throws Exception{
-//		adminGoodsDAO.updateGoodsInfo(goodsMap);
+//	public void modifyproductInfo(Map productMap) throws Exception{
+//		adminproductDAO.updateproductInfo(productMap);
 //		
 //	}	
 //	@Override
-//	public void modifyGoodsImage(List<ImageFileVO> imageFileList) throws Exception{
-//		adminGoodsDAO.updateGoodsImage(imageFileList); 
+//	public void modifyproductImage(List<ImageFileVO> imageFileList) throws Exception{
+//		adminproductDAO.updateproductImage(imageFileList); 
 //	}
 //	
 //	@Override
-//	public List<OrderVO> listOrderGoods(Map condMap) throws Exception{
-//		return adminGoodsDAO.selectOrderGoodsList(condMap);
+//	public List<OrderVO> listOrderproduct(Map condMap) throws Exception{
+//		return adminproductDAO.selectOrderproductList(condMap);
 //	}
 //	@Override
-//	public void modifyOrderGoods(Map orderMap) throws Exception{
-//		adminGoodsDAO.updateOrderGoods(orderMap);
-//	}
-//	
-//	@Override
-//	public void removeGoodsImage(int image_id) throws Exception{
-//		adminGoodsDAO.deleteGoodsImage(image_id);
+//	public void modifyOrderproduct(Map orderMap) throws Exception{
+//		adminproductDAO.updateOrderproduct(orderMap);
 //	}
 //	
 //	@Override
-//	public void addNewGoodsImage(List imageFileList) throws Exception{
-//		adminGoodsDAO.insertGoodsImageFile(imageFileList);
+//	public void removeproductImage(int image_id) throws Exception{
+//		adminproductDAO.deleteproductImage(image_id);
+//	}
+//	
+//	@Override
+//	public void addNewproductImage(List imageFileList) throws Exception{
+//		adminproductDAO.insertproductImageFile(imageFileList);
 //	}
 //	
 

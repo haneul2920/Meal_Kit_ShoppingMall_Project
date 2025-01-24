@@ -1,9 +1,7 @@
 package com.cookit.common.base;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,39 +12,55 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import com.cookit.product.vo.ProductVO;
 
 
 
 
 public abstract class BaseController  {
-	private static final String CURR_IMAGE_REPO_PATH = "C:\\shopping\\file_repo";
+	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookit\\file_repo";
 	
-	protected List<ProductVO> upload(MultipartHttpServletRequest multipartRequest) throws Exception{
-		List<ProductVO> fileList= new ArrayList<ProductVO>();
+	protected ProductVO upload(MultipartHttpServletRequest multipartRequest) throws Exception{
+		ProductVO productVO= new ProductVO();
+		multipartRequest.setCharacterEncoding("utf-8");
 		Iterator<String> fileNames = multipartRequest.getFileNames();
+		String fileName = "";
+		String originalFileName = "";
+		MultipartFile mFile;
 		while(fileNames.hasNext()){
-			ProductVO ProductVO =new ProductVO();
-			String fileName = fileNames.next();
-			if(fileName.equals(""))
-			ProductVO.setFileType(fileName);
-			MultipartFile mFile = multipartRequest.getFile(fileName);
-			String originalFileName=mFile.getOriginalFilename();
-			ProductVO.setFileName(originalFileName);
-			fileList.add(ProductVO);
-			
-			File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileName);
-			if(mFile.getSize()!=0){ //File Null Check
-				if(! file.exists()){ //경로상에 파일이 존재하지 않을 경우
-					if(file.getParentFile().mkdirs()){ //경로에 해당하는 디렉토리들을 생성
-							file.createNewFile(); //이후 파일 생성
+			fileName = fileNames.next();
+			if(fileName.equals("product_image_")) {
+				productVO.setProduct_image(fileName);
+				mFile = multipartRequest.getFile(fileName);
+				originalFileName = mFile.getOriginalFilename();
+				productVO.setProduct_image(originalFileName);
+				File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileName);
+				if(mFile.getSize()!=0){ //File Null Check
+					if(! file.exists()){ //
+						if(file.getParentFile().mkdirs()){ //
+								file.createNewFile(); //
+						}
 					}
+					mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+originalFileName)); //
 				}
-				mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+originalFileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
+			}
+			else if(fileName.equals("product_inform_")) {
+				productVO.setProduct_inf_image(fileName);
+				mFile = multipartRequest.getFile(fileName);
+				originalFileName = mFile.getOriginalFilename();
+				productVO.setProduct_inf_image(originalFileName);
+				File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileName);
+				if(mFile.getSize()!=0){ //File Null Check
+					if(! file.exists()){ //
+						if(file.getParentFile().mkdirs()){ //
+								file.createNewFile(); //
+						}
+					}
+					mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+originalFileName)); //
+				}
 			}
 		}
-		return fileList;
+		return productVO;
 	}
 	
 //	private void deleteFile(String fileName) {
