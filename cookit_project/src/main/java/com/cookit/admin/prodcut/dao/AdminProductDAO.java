@@ -1,4 +1,4 @@
-package com.cookit.product.dao;
+package com.cookit.admin.prodcut.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -9,11 +9,11 @@ import com.cookit.product.vo.ProductVO;
 import com.cookit.product.vo.ProductInformVO;
 
 
-public interface ProductDAO {
-//	public int insertProduct(ProductVO productVO) throws DataAccessException;
-//	public int findCategory(String category_name) throws DataAccessException;
-//	public void insertInform(ProductInformVO productInformVO) throws DataAccessException;
-	public List<ProductVO> selectAllProductList() throws DataAccessException; // ��) ����Ʈ����, �Ű����� ���
+public interface AdminProductDAO {
+	public int insertProduct(ProductVO productVO) throws DataAccessException;
+	public int findCategory(String category_name) throws DataAccessException;
+	public void insertInform(ProductInformVO productInformVO) throws DataAccessException;
+//	public List<ProductVO> selectAllProductList() throws DataAccessException; // ��) ����Ʈ����, �Ű����� ���
 	
 //	public List<GoodsVO>selectNewGoodsList(Map condMap) throws DataAccessException;
 //	public GoodsVO selectGoodsDetail(int goods_id) throws DataAccessException;

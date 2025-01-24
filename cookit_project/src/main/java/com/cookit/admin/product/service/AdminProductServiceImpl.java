@@ -1,53 +1,52 @@
-package com.cookit.product.service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package com.cookit.admin.product.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cookit.product.dao.ProductDAO;
+import com.cookit.admin.prodcut.dao.AdminProductDAO;
 import com.cookit.product.vo.ProductInformVO;
 import com.cookit.product.vo.ProductVO;
+
+//import com.cookit.product.dao.ProductDAO;
+//import com.cookit.product.vo.ProductInformVO;
+//import com.cookit.product.vo.ProductVO;
+
 //import com.cookit.admin.product.dao.AdminproductDAO;
 
 
 
 
-@Service("ProductService")
+@Service("AdminProductService")
 @Transactional(propagation=Propagation.REQUIRED)
-public class ProductServiceImpl implements ProductService {
-	
+public class AdminProductServiceImpl implements AdminProductService {
 	@Autowired
-	private ProductDAO productDAO;
+	private AdminProductDAO productAdiminDAO;
+	
+	@Override
+	public int addNewProduct(ProductVO productVO) throws Exception{
+		int product_id = productAdiminDAO.insertProduct(productVO);
+		return product_id;
+	}
+	
+	@Override
+	public int findCategoryId(String category_name) throws Exception{
+		int category_id = productAdiminDAO.findCategory(category_name);
+
+		return category_id;
+	}
+	
+	@Override
+	public void insertInform(ProductInformVO productInformVO) throws Exception{
+		productAdiminDAO.insertInform(productInformVO);
+	}
 	
 //	@Override
-//	public int addNewProduct(ProductVO productVO) throws Exception{
-//		int product_id = productDAO.insertProduct(productVO);
-//		return product_id;
+//	public List<ProductVO> listAllProduct() throws Exception {
+//		List<ProductVO> productList=productDAO.selectAllProductList();
+//		return productList;
 //	}
-//	
-//	@Override
-//	public int findCategoryId(String category_name) throws Exception{
-//		int category_id = productDAO.findCategory(category_name);
-//
-//		return category_id;
-//	}
-//	
-//	@Override
-//	public void insertInform(ProductInformVO productInformVO) throws Exception{
-//		productDAO.insertInform(productInformVO);
-//	}
-//	
-	@Override
-	public List<ProductVO> listAllProduct() throws Exception {
-		List<ProductVO> productList=productDAO.selectAllProductList();
-		return productList;
-	}
 	
 //	@Override
 //	public ProductVO productDetail(int product_id) throws Exception {

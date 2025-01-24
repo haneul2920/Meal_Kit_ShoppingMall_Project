@@ -1,4 +1,4 @@
-package com.cookit.product.dao;
+package com.cookit.admin.prodcut.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,38 +15,36 @@ import com.cookit.product.vo.ProductVO;
 
 //import com.bookshop01.order.vo.OrderVO;
 
-@Repository("ProductDAO")
-public class ProductDAOImpl  implements ProductDAO{
+@Repository("AdminProductDAO")
+public class AdminProductDAOImpl  implements AdminProductDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
-//	@Override
-//	public int insertProduct(ProductVO productVO) throws DataAccessException {
-//		sqlSession.insert("mapper.product.insertProduct",productVO);
-//		String product_name = productVO.getProduct_name();
-//		int product_id = sqlSession.selectOne("mapper.product.selectProductId", product_name);
-//		return product_id;
-//	}
-//	
-//	@Override
-//	public int findCategory(String category_name) throws DataAccessException {
-//		System.out.println(category_name);
-//		int category_id =sqlSession.selectOne("mapper.product.findCategory", category_name);
-//		System.out.println(category_id);
-//		return category_id;
-//	}
-//	
-//	@Override
-//	public void insertInform(ProductInformVO productInformVO) throws DataAccessException{
-//		sqlSession.insert("mapper.product.insertInform", productInformVO);
-//	}
+	@Override
+	public int insertProduct(ProductVO productVO) throws DataAccessException {
+		sqlSession.insert("mapper.adminProduct.insertProduct",productVO);
+		String product_name = productVO.getProduct_name();
+		int product_id = sqlSession.selectOne("mapper.adminProduct.selectProductId", product_name);
+		return product_id;
+	}
 	
 	@Override
-	public List<ProductVO> selectAllProductList() throws DataAccessException {
-		List<ProductVO> productList=(ArrayList)sqlSession.selectList("mapper.product.selectAllProductList");
-	   return productList;	
-     
+	public int findCategory(String category_name) throws DataAccessException {
+		int category_id =sqlSession.selectOne("mapper.adminProduct.findCategory", category_name);
+		return category_id;
 	}
+	
+	@Override
+	public void insertInform(ProductInformVO productInformVO) throws DataAccessException{
+		sqlSession.insert("mapper.adminProduct.insertInform", productInformVO);
+	}
+	
+//	@Override
+//	public List<ProductVO> selectAllProductList() throws DataAccessException {
+//		List<ProductVO> productList=(ArrayList)sqlSession.selectList("mapper.product.selectAllProductList");
+//	   return productList;	
+//     
+//	}
 //	@Override
 //	public void insertProductImageFile(List fileList)  throws DataAccessException {
 //		for(int i=0; i<fileList.size();i++){
