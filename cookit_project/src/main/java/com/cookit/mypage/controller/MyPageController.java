@@ -21,7 +21,6 @@ public interface MyPageController {
 					            @RequestParam("value")  String value,
 					            HttpServletRequest request, HttpServletResponse response)  throws Exception;
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView myPageMain(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	
 }

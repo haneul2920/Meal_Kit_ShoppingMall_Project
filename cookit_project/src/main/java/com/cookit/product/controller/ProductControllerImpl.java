@@ -23,8 +23,7 @@ public class ProductControllerImpl implements ProductController {
 
 	
 	@RequestMapping(value="/insertProduct.do" ,method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView insertProduct(
-			                 HttpServletRequest request, HttpServletResponse response)  throws Exception{
+	public ModelAndView insertProduct(HttpServletRequest request, HttpServletResponse response)  throws Exception{
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("product/productForm");
 		return mav;

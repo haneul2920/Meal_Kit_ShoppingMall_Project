@@ -6,14 +6,7 @@ import org.springframework.stereotype.Service;
 import com.cookit.mypage.dao.MyPageDAO;
 import com.cookit.mypage.vo.MyPageVO;
 
-@Service
-public class MyPageServiceImpl implements MyPageService {
-    @Autowired
-    private MyPageDAO myPageDAO;
+public class MyPageServiceImpl {
 
-    @Override
-    public MyPageVO getUserInfo(int userId) {
-        return myPageDAO.getUserInfo(userId);
-    }
 }
-
+ 

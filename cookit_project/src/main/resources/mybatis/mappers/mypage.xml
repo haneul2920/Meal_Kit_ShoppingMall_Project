@@ -6,27 +6,32 @@
 <mapper namespace="mypageMapper">
 
 <select id="getUserInfo" parameterType="int" resultType="com.cookit.mypage.vo.MyPageVO">
-    SELECT 
-        user_id AS userId,
-        username,
-        phone_num,
-        email1,
-        email2,
-        cash_point,
-        gender
-    FROM user
-    WHERE user_id = #{userId}
+
+SELECT 
+    user_id AS userId,
+    username,
+    phone_num,
+    email1,
+    email2,
+    cash_point,
+    gender,
+    roadAddress,
+    jibunAddress,
+    namujiAddress,
+    zipcode
+FROM user
+WHERE user_id = #{userId}
 </select>
 
-    <update id="updateUserInfo" parameterType="com.cookit.mypage.vo.MyPageVO">
+    <update id="updateUserInfo" parameterType="map">
         UPDATE user
         SET 
-            name = #{name}, 
             username = #{username}, 
-            phone_num = #{phoneNum}, 
-            email = #{email}, 
-            address = #{address}, 
-            gender = #{gender}
+            phone_num = #{phone}, 
+            email = #{email},
+            address = #{address},
+            password = #{password}
         WHERE user_id = #{userId}
     </update>
 </mapper>
+    

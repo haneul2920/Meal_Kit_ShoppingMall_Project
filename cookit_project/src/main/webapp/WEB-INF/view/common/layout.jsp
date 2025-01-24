@@ -28,8 +28,8 @@
 				   <tiles:insertAttribute name="header" />
 			</header>
 			<article>
-			 	<tiles:insertAttribute name="body" />
-			</article>
+			 	<tiles:insertAttribute name="body" ignore="true"/>
+			</article> 
 			<footer>
         		<tiles:insertAttribute name="footer" />
         	</footer>

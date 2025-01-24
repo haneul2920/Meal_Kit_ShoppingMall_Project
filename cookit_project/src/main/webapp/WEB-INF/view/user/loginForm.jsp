@@ -39,7 +39,7 @@ function result(){
 		</TABLE>
 		<br><br>
 		<INPUT	type="submit" value="로그인"> 
-		<INPUT type="button" value="초기화">
+		<INPUT  type="reset" value="초기화">
 		
 		<Br><br>
 		   <a href="#">아이디 찾기</a>  | 

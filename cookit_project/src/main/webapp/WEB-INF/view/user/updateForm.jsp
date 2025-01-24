@@ -16,7 +16,7 @@
             const password2 = document.querySelector('input[name="password2"]').value;
             const password3 = document.querySelector('input[name="password3"]').value;
             if (password2 !== password3) {
-                alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                alert("새 비밀번호가 일치하지 않습니다.");
                 return false;
             }
             return true;
@@ -26,7 +26,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>My Page</h1>
+        <h1>회원정보수정</h1>
         
 
         <c:if test="${not empty message}">
@@ -36,52 +36,64 @@
             <p class="error-message">${errorMessage}</p>
         </c:if>
         
-        <form action="mypage/updateInfo.do" method="post" onsubmit="return validatePassword()">
+        <form action="${contextPath}/user/updateUser" method="post" onsubmit="return validatePassword()">
 
             <div class="form-section">
                 <h2>사용자 정보 수정</h2>
+                
                 <div class="form-group">
                     <label>아이디:</label>
-                    <input type="text" name="name" value="${user.user_id}" readonly>
+                    <input type="text" name="user_id" value="${userInfo.user_id}" readonly>
                 </div>
+                
+                 <div class="form-group">
+                    <label>이메일:</label>
+                    <input type="email" name="email" value="${userInfo.email1}@${userInfo.email2}" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label>연락처:</label>
+                    <input type="text" name="phonenum" value="${userInfo.phone_num}" readonly>
+                </div>
+                
                 <div class="form-group">
                     <label>사용자 이름:</label>
-                    <input type="text" name="username" value="${user.username}">
+                    <input type="text" name="username" value="${userInfo.username}">
                 </div>
+                
                 <div class="form-group">
-                    <label>전화번호:</label>
-                    <input type="text" name="phoneNum" value="${user.phone_num}">
+                    <label>도로명주소:</label>
+                    <input type="text" name="roadAddress" value="${userInfo.roadAddress}">
                 </div>
-                <div class="form-group">
-                    <label>이메일:</label>
-                    <input type="email" name="email" value="${user.email1 + user.email2}">
+                
+                  <div class="form-group">
+                    <label>지번 주소:</label>
+                    <input type="text" name="jibunAddress" value="${userInfo.jibunAddress}">
                 </div>
-                <div class="form-group">
-                    <label>주소:</label>
-                    <input type="text" name="address" value="${user.roadAddress}">
+                
+                 <div class="form-group">
+                    <label>나머지 주소:</label>
+                    <input type="text" name="namujiAddress" value="${userInfo.namujiAddress}">
                 </div>
             </div>
             
             <div class="form-section">
                 <h2>비밀번호 변경</h2>
                 <div class="form-group">
-                    <label>기존 비밀번호:</label>
-                    <input type="password" name="password1" required>
-                </div>
-                <div class="form-group">
                     <label>새 비밀번호:</label>
-                    <input type="password" name="password2" minlength="8" required>
+                    <input type="password" name="password2" minlength="6" required>
                 </div>
-                <div class="form-group">
+                <div class=	"form-group">
                     <label>새 비밀번호 확인:</label>
-                    <input type="password" name="password3" minlength="8" required>
+                    <input type="password" name="password3" minlength="6" required>
                 </div>
             </div>            
             
             <div class="form-actions">
                 <button type="submit" class="save-btn">정보 수정</button>
-                <button type="button" class="cancel-btn" onclick="window.location.href='/mypage';">취소</button>
+                <button type="button" class="cancel-btn" onclick="window.location.href='${contextPath}/mypage/myPageMain.do';">취소</button>
             </div>
+            
         </form>
     </div>
 </body>
