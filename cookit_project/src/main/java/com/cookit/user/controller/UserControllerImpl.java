@@ -49,7 +49,7 @@ public class UserControllerImpl extends BaseController implements UserController
 				mav.setViewName("redirect:/main/main.do");	
 			}			
 		}else{
-			String message="¾ÆÀÌµğ³ª  ºñ¹Ğ¹øÈ£°¡ Æ²¸³´Ï´Ù. ´Ù½Ã ·Î±×ÀÎÇØÁÖ¼¼¿ä";
+			String message="ì•„ì´ë””ë‚˜  ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë¦½ë‹ˆë‹¤. ë‹¤ì‹œ ë¡œê·¸ì¸í•´ì£¼ì„¸ìš”";
 			mav.addObject("message", message);
 			mav.setViewName("/user/loginForm");
 		}
@@ -81,13 +81,13 @@ public class UserControllerImpl extends BaseController implements UserController
 		try {
 		    userService.addUser(_userVO);
 		    message  = "<script>";
-		    message +=" alert('È¸¿ø °¡ÀÔÀ» ¸¶ÃÆ½À´Ï´Ù.·Î±×ÀÎÃ¢À¸·Î ÀÌµ¿ÇÕ´Ï´Ù.');";
+		    message +=" alert('íšŒì› ê°€ì…ì„ ë§ˆì³¤ìŠµë‹ˆë‹¤.ë¡œê·¸ì¸ì°½ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.');";
 		    message += " location.href='"+request.getContextPath()+"/user/loginForm.do';";
 		    message += " </script>";
 		    
 		}catch(Exception e) {
 			message  = "<script>";
-		    message +=" alert('ÀÛ¾÷ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù. ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä');";
+		    message +=" alert('ì‘ì—… ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•´ ì£¼ì„¸ìš”');";
 		    message += " location.href='"+request.getContextPath()+"/user/userForm.do';";
 		    message += " </script>";
 			e.printStackTrace();
