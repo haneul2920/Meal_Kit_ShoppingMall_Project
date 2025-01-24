@@ -115,3 +115,30 @@
                     </div>
                 </div><!--// main-slide-bottom -->
             <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+            
+            <div class="main_product">
+		<c:forEach var="item" items="${productList}">
+			<div class="product_card">
+				<div class="product_info">
+					<img class="product_image" width="75" alt="" 
+					     src="${contextPath}/thumbnails.do?product_id=${item.product_id}&imageName=${item.product_image}">
+					<div class="product_details">
+						<h2 class="product_name">
+							<a href="${contextPath}/main/main.do">${item.product_name}</a>
+						</h2>
+						<span class="product_price">${item.price}원</span>
+					</div>
+				</div>
+	<!-- 			<div class="product_actions">
+					<input type="checkbox" class="product_checkbox" value="">
+					<div class="buy_buttons">
+						<ul>
+							<li><a href="#">장바구니</a></li>
+							<li><a href="#">구매하기</a></li>
+							<li><a href="#">비교하기</a></li>
+						</ul>
+					</div>
+				</div> -->
+			</div>
+		</c:forEach>
+	</div>

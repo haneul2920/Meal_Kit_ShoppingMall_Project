@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component("userVO")
 public class UserVO {
-	private String user_code;
+	private int user_code;
 	private String user_type;
 	private String manager_id;
 	private String user_id;
@@ -21,10 +21,10 @@ public class UserVO {
 	private String gender;
 	
 	
-	public String getUser_code() {
+	public int getUser_code() {
 		return user_code;
 	}
-	public void setUser_code(String user_code) {
+	public void setUser_code(int user_code) {
 		this.user_code = user_code;
 	}
 	public String getUser_type() {

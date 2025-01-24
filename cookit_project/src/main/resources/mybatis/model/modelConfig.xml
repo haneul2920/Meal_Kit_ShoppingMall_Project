@@ -6,8 +6,12 @@
 	<typeAliases>
 	
 		<typeAlias type="com.cookit.user.vo.UserVO"  alias="userVO" />
-		<!-- <typeAlias type="com.myspring.pro30.board.vo.ArticleVO"  alias="articleVO" />
-		<typeAlias type="com.myspring.pro30.board.vo.ImageVO"  alias="imageVO" /> -->
+		<typeAlias type="com.cookit.product.vo.ProductVO"  alias="productVO"/>
+		<typeAlias type="com.cookit.product.vo.ProductInformVO"  alias="productInformVO"/>
+		<typeAlias type="com.cookit.product.vo.CategoryVO"  alias="categoryVO"/>
+		<typeAlias type="com.cookit.cart.vo.CartVO"  alias="cartVO"/>
+		
+<!-- 		<typeAlias type="com.myspring.pro30.board.vo.ImageVO"  alias="imageVO" /> -->
 		
 	</typeAliases>
 </configuration>

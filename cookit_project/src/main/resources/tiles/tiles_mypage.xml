@@ -4,14 +4,6 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
        
 <tiles-definitions>
-
-	<definition name="baseLayout"
-		template="/WEB-INF/view/common/layout.jsp">
-		<put-attribute name="title" value="레이아웃 페이지" />
-		<put-attribute name="header" value="/WEB-INF/view/common/header.jsp" />
-		<put-attribute name="body" value=""/>
-		<put-attribute name="footer" value="/WEB-INF/view/common/footer.jsp" />
-	</definition>
 	
     <definition name="/mypage/myPageMain" extends="baseLayout">
        <put-attribute name="title" value="회원페이지 메인" />

@@ -1,4 +1,4 @@
-package com.cookit.main.controller;
+package com.cookit.main;
 
 import java.util.List;
 import java.util.Map;
@@ -16,11 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cookit.common.base.BaseController;
 
-@Controller()
-@RequestMapping("/main")
-public class MainControllerImpl extends BaseController{
+@Controller("mainController")
+public class MainController extends BaseController{
 	
-	@RequestMapping(value= "/main.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/main/main.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName=(String)request.getAttribute("viewName");
 		ModelAndView mav=new ModelAndView();		

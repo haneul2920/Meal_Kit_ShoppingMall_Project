@@ -5,6 +5,7 @@ Use MealKit_ShoppingMall;
 select * from user;
 select * from category;
 select * from product;
+select * from product_inform;
 select * from order_history;
 select * from order_product;
 select * from cart;
@@ -18,6 +19,7 @@ drop table review;
 drop table service_center;
 drop table delivery_address;
 drop table product;
+drop table product_inform;
 drop table order_history;
 drop table user;
 drop table category;
@@ -51,13 +53,34 @@ CREATE TABLE `category` (
 -- 상품 테이블
 CREATE TABLE `product` (
   `product_id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '상품 고유번호',
-  `product_name` VARCHAR(100) NOT NULL COMMENT '상품 이름',
-  `product_description` VARCHAR(100) NOT NULL COMMENT '상품 설명',
+  `product_name` VARCHAR(100) UNIQUE KEY NOT NULL COMMENT '상품 이름',
   `price` INT UNSIGNED NOT NULL COMMENT '상품 가격',
   `product_amount` INT UNSIGNED DEFAULT 0 COMMENT '남은 재고',
-  `product_image` VARCHAR(50) NOT NULL COMMENT '상품 이미지',
   `category_id` INT UNSIGNED NOT NULL COMMENT '카테고리 고유번호',
+  `product_inf_image` VARCHAR(50) NOT NULL COMMENT '상품 정보 이미지',
+  `product_image` VARCHAR(50) NOT NULL COMMENT '상품 이미지',
+  `reg_id` VARCHAR(30) NOT NULL COMMENT '작성자',
+  `post_date` DATE  DEFAULT(CURRENT_DATE) COMMENT '게시일자',
   FOREIGN KEY (`category_id`) REFERENCES `category`(`category_id`)
+);
+
+-- 상품 테이블_정보
+CREATE TABLE `product_inform` (
+  `product_name` VARCHAR(100) NOT NULL DEFAULT '상세페이지 참조' COMMENT '식품의 유형',
+  `product_ex_date` VARCHAR(20) NOT NULL COMMENT '소비 기한',
+  `ingredient_info` VARCHAR(30) DEFAULT '상세페이지 참조' COMMENT '원재료명 및 함량', 
+  `GMO_status` VARCHAR(30) DEFAULT '해당사항 없음' COMMENT '유전자재조합식품 여부',
+  `nutrition_facts` VARCHAR(30) DEFAULT '해당사항 없음' COMMENT '영양성분',
+  `producer` VARCHAR(20) NOT NULL COMMENT '생산자(제조자)',
+  `product_addr` VARCHAR(50) NOT NULL COMMENT '생산자 소재지',
+  `product_weight` VARCHAR(10) DEFAULT '상세페이지 참조' COMMENT '중량',
+  `delivery_area` VARCHAR(50) NOT NULL COMMENT '배송가능지역',
+  `delivery_method` VARCHAR(50) DEFAULT '택배' COMMENT '배송방법',
+  `import_notice` VARCHAR(30) DEFAULT '해당사항 없음' COMMENT '수입식품 문구',
+  `special_category` VARCHAR(50) DEFAULT '해당사항 없음' COMMENT '영유아식 또는 체중조절식품 등에 해당 여부',
+  `customer_service` VARCHAR(30) DEFAULT '쿠키트 고객센터 (1668-7700)' COMMENT '소비자상담번호',
+  `warnings` VARCHAR(30) DEFAULT '상세페이지 참조' COMMENT '주의사항',  
+  FOREIGN KEY (`product_name`) REFERENCES `product`(`product_name`)
 );
 
 -- 주문 기록 테이블
@@ -128,4 +151,11 @@ CREATE TABLE `delivery_address` (
   `phone_num` VARCHAR(20) NOT NULL COMMENT '전화번호',
   FOREIGN KEY (`order_id`) REFERENCES `order_history`(`order_id`) ON DELETE CASCADE
 );
+
+insert into category (category_name) value('한식');
+insert into category (category_name) value('중식');
+insert into category (category_name) value('일식');
+insert into category (category_name) value('양식');
+insert into category (category_name) value('분식');
+insert into category (category_name) value('동남아식');
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cart">
+	<!-- 리절트 맵 정의 -->
+	<resultMap id="cartResult" type="CartVO">
+		<result property="cart_id" column="cart_id" />
+		<result property="product_id" column="product_id" />
+		<result property="user_id" column="user_id" />
+		<result property="amount" column="amount" />
+	</resultMap>
+	
+	<resultMap id="productResult" type="ProductVO">
+		<result property="product_id" column="product_id" />
+		<result property="product_name" column="product_name" />
+		<result property="price" column="price" />
+		<result property="product_amount" column="product_amount" />
+
+		<result property="product_image" column="category_id" />
+		<!-- <result property="goods_sales_price" column="goods_sales_price" />
+		<result property="goods_published_date" column="goods_published_date" />
+		<result property="goods_total_page" column="goods_total_page" />
+		<result property="goods_isbn" column="goods_isbn" />
+		<result property="goods_delivery_price" column="goods_delivery_price" />
+		<result property="goods_delivery_date" column="goods_delivery_date" />
+
+		<result property="goods_fileName" column="fileName" />
+		<result property="goods_sort" column="goods_sort" />
+		<result property="goods_writer_intro" column="goods_writer_intro" />
+		<result property="goods_contents_order" column="goods_contents_order" />
+		<result property="goods_intro" column="goods_intro" /> -->
+	</resultMap>
+
+	<select id="selectCartList"  parameterType="cartVO"  resultMap="cartResult"   >
+	    <![CDATA[
+		select cart_id, product_id, user_id, amount
+		from cart 
+		where user_id=#{user_id} 
+		]]>
+	</select>
+
+	<!-- <select id="selectProductList" resultMap="productResult" parameterType="java.util.Map">
+      <![CDATA[
+          select g.*,d.fileName from t_shopping_goods g, t_goods_detail_image d
+          where g.goods_id=d.goods_id
+          and d.filetype='main_image'
+           and g.goods_id in
+      ]]>
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item.product_id}
+		</foreach>
+		order by g.goods_creDate desc
+	</select>
+
+	<select id="selectCountInCart" resultType="String" parameterType="cartVO">
+	    <![CDATA[
+	    	SELECT IF(COUNT(*) = 0, 'false', 'true') AS result
+			FROM cart
+			WHERE product_id = #{product_id}
+			AND user_id = #{user_id};    
+    	]]>오라클 소스 decode
+    	 select decode(count(*), 0, 'false', 'true') from t_shopping_cart
+			where goods_id=#{goods_id}
+			  and member_id=#{member_id} 
+	</select>
+
+	<insert id="insertProductInCart" parameterType="cartVO">
+	    <![CDATA[
+		    	insert into cart(cart_id,
+		    	                 product_id,
+		    	                 user_id)
+		        		 values(#{cart_id},
+		    					#{product_id},
+		    					#{user_id})
+    	]]>
+	</insert>
+
+	<update id="updateCartProductQty" parameterType="cartVO">
+	    <![CDATA[
+			update cart
+			       set amount=#{amount}
+		 	       where user_id=#{user_id}
+			        and product_id=#{product_id}
+    	]]>
+	</update>
+	<delete id="deleteCartProduct" parameterType="int">
+	    <![CDATA[
+	      delete from cart
+	      where cart_id=#{cart_id}
+    	]]>
+	</delete>
+	
+	<select id="selectMaxCartId" resultType="int">
+	    <![CDATA[
+			select IFNULL(max(cart_id), 0) + 1 from cart 
+    	]]>
+	</select>
+ -->
+</mapper>

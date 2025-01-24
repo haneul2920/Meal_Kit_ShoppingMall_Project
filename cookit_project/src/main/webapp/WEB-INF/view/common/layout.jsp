@@ -7,18 +7,15 @@
 <%
   request.setCharacterEncoding("utf-8");
 %>
-
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<link href="${contextPath}/resources/css/main.css" rel="stylesheet" type="text/css" media="screen">
 <script src="${contextPath}/resources/jquery/jquery-1.6.2.min.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/jquery.easing.1.3.js" type="text/javascript"></script>
-<script src="${contextPath}/resources/jquery/stickysidebar.jquery.js" type="text/javascript"></script>
+<%-- <script src="${contextPath}/resources/jquery/stickysidebar.jquery.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/basic-jquery-slider.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/tabs.js" type="text/javascript"></script>
-<script src="${contextPath}/resources/jquery/carousel.js" type="text/javascript"></script>
+<script src="${contextPath}/resources/jquery/carousel.js" type="text/javascript"></script> --%>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>
@@ -28,8 +25,8 @@
 				   <tiles:insertAttribute name="header" />
 			</header>
 			<article>
-			 	<tiles:insertAttribute name="body" ignore="true"/>
-			</article> 
+			 	<tiles:insertAttribute name="body" />
+			</article>
 			<footer>
         		<tiles:insertAttribute name="footer" />
         	</footer>

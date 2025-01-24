@@ -55,7 +55,7 @@ public class UserControllerImpl extends BaseController implements UserController
 			mav.addObject("message", message);
 			mav.setViewName("/user/loginForm");
 		}
-		mav.setViewName("/user/loginForm");
+		mav.setViewName("/main/main");
 		return mav;
 	}
 
@@ -118,7 +118,7 @@ public class UserControllerImpl extends BaseController implements UserController
     }
     
     @Override
-    @RequestMapping(value = "/updateForm", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateForm.do", method = RequestMethod.GET)
     public ModelAndView showUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("userId");
         UserVO user = userService.getUserById(userId);
