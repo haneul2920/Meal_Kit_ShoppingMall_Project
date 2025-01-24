@@ -18,24 +18,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cookit.admin.product.service.AdminProductService;
 import com.cookit.common.base.BaseController;
-import com.cookit.product.vo.CategoryVO;
+import com.cookit.admin.product.service.AdminProductService;
 import com.cookit.product.vo.ProductInformVO;
 import com.cookit.product.vo.ProductVO;
-import com.cookit.user.vo.UserVO;
-
 
 @Controller
 @RequestMapping("/admin")
 public class AdminProductControllerImpl extends BaseController implements AdminProductController {
-	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookitMall\\file_repo";
+	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookit\\file_repo";
 	@Autowired
 	private AdminProductService adminProductService;
 
+	
+	
+//	@RequestMapping(value="/productDetail.do" ,method = RequestMethod.GET)
+//	public ModelAndView goodsDetail(@RequestParam("product_id") String product_id,
+//			                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String viewName=(String)request.getAttribute("viewName");
+//		HttpSession session=request.getSession();
+//		ProductVO productVO = new ProductVO();
+//		productService.productDetail(product_id);
+//		ModelAndView mav = new ModelAndView(viewName);
+//		mav.addObject("prodcutVO", productVO);
+////		addGoodsInQuick(goods_id,goodsVO,session);
+//		return mav;
+//	}
+	
+	
 	// ��ǰ ���� �Է��������� ����
 	@Override
 	@RequestMapping(value="/goForm.do" ,method = {RequestMethod.POST,RequestMethod.GET})
@@ -52,15 +66,12 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 	@Override
 	@RequestMapping(value="/insertProduct.do" ,method = {RequestMethod.POST,RequestMethod.GET})
 	public ResponseEntity insertProduct( @ModelAttribute("productVO") ProductVO productVO, @ModelAttribute("productInformVO") ProductInformVO productInformVO,
-	         MultipartHttpServletRequest multipartRequest, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		MultipartHttpServletRequest multipartRequest, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		multipartRequest.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
+		String viewName=(String)request.getAttribute("viewName");
+		System.out.println("viewName : "+ viewName);
 		
-		
-		System.out.println(productVO.getPrice());
-		System.out.println(productVO.getProduct_name());
-		System.out.println(productVO.getProduct_amount());
-
 		String imageFileName=null;
 		
 		Map newProductMap = new HashMap();
@@ -78,9 +89,7 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 		ProductVO imageFileList =upload(multipartRequest); // �̹���, �̹��� ���� ���� ���� �̸� ����Ʈ
 		String imageName = imageFileList.getProduct_image();
 		String imageInform = imageFileList.getProduct_inf_image();
-		System.out.println(imageName);
-		System.out.println(imageInform);
-		
+
 		productVO.setCategory_id(category_id);
  		productVO.setProduct_inf_image(imageInform);
   		productVO.setProduct_image(imageName);
@@ -105,7 +114,7 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 				FileUtils.moveFileToDirectory(srcFile2, destDir2,true);
 			}
 			message= "<script>";
-			message += " alert('상품이 등록되었습니다.');";
+			message += " alert('상품등록이 완료되었습니다.');";
 			message +=" location.href='"+multipartRequest.getContextPath()+"/admin/goForm.do';";
 			message +=("</script>");
 		}catch(Exception e) {
@@ -117,7 +126,7 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 			}
 			
 			message= "<script>";
-			message += " alert('오류가 발생했습니다.');";
+			message += " alert('상품등록에 실패했습니다.');";
 			message +=" location.href='"+multipartRequest.getContextPath()+"/admin/goForm.do';";
 			message +=("</script>");
 			e.printStackTrace();
