@@ -11,9 +11,9 @@ import com.cookit.product.vo.ProductInformVO;
 
 public interface AdminProductDAO {
 	public int insertProduct(ProductVO productVO) throws DataAccessException;
-	public int findCategory(String category_name) throws DataAccessException;
+	public Integer findCategory(String category_name) throws DataAccessException;
 	public void insertInform(ProductInformVO productInformVO) throws DataAccessException;
-//	public List<ProductVO> selectAllProductList() throws DataAccessException; // ��) ����Ʈ����, �Ű����� ���
+	public List<ProductVO> selectAllProductList() throws DataAccessException;
 	
 //	public List<GoodsVO>selectNewGoodsList(Map condMap) throws DataAccessException;
 //	public GoodsVO selectGoodsDetail(int goods_id) throws DataAccessException;

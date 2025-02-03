@@ -113,11 +113,93 @@
       ]]> 
   </select>
   
-  	<select id="selectAllProductList" resultType="productVO">
-        <![CDATA[
-        	SELECT * FROM product
-         ]]>
-     </select>
+  <select id="selectProduct" parameterType="int" resultType="productVO">
+  	<![CDATA[
+    	SELECT * FROM product 
+    	where product_id = #{product_id}
+      ]]> 
+  </select>
+  
+  <select id="selectProductInform" parameterType="String" resultType="productInformVO">
+  	<![CDATA[
+    	SELECT * FROM product_inform 
+    	where product_name = (SELECT product_name
+    	FROM product
+    	WHERE product_id = #{product_id}) 
+      ]]> 
+  </select>
+  
+  <select id="selectAllProductList" resultType="productVO">
+      <![CDATA[
+      	SELECT * FROM product
+       ]]>
+  </select>
+  
+  <delete id="deleteProductInform" parameterType="int">
+  	  <![CDATA[
+    	DELETE FROM product_inform
+		WHERE PRODUCT_NAME = 
+		(SELECT PRODUCT_NAME FROM PRODUCT
+		WHERE PRODUCT_ID = #{product_id})
+      ]]> 
+  </delete>
+  
+  <delete id="deleteProduct" parameterType="int">
+  	  <![CDATA[
+    	DELETE FROM product 
+		WHERE product_id = #{product_id};
+      ]]> 
+  </delete>
+  
+   <select id="selectImageName" parameterType="int" resultType="String">
+  	<![CDATA[
+    	select product_image from product
+    	where product_id = #{product_id}
+      ]]> 
+  </select>
+  
+   <select id="selectImageInform" parameterType="int" resultType="String">
+  	<![CDATA[
+    	select product_inf_image from product
+    	where product_id = #{product_id}
+      ]]> 
+  </select>
+  
+
+	<update id="updateProduct" parameterType="productVO">
+	  <![CDATA[
+    	UPDATE product
+    	SET
+    	price = #{price},
+    	product_amount = #{product_amount},
+    	category_id = #{category_id},
+    	product_inf_image = #{product_inf_image},
+    	product_image = #{product_image}
+    	WHERE product_id = #{product_id}
+      ]]>
+	</update>
+	
+	<update id="updateProductInform" parameterType="productInformVO">
+	  <![CDATA[
+		UPDATE product_inform
+	    SET
+	    product_ex_date = #{product_ex_date},
+	    ingredient_info = #{ingredient_info},
+	    GMO_status = #{GMO_status},
+	    nutrition_facts = #{nutrition_facts},
+	    producer = #{producer},
+	    product_addr = #{product_addr},
+	    product_weight = #{product_weight},
+	    delivery_area = #{delivery_area},
+	    delivery_method = #{delivery_method},
+	    import_notice = #{import_notice},
+	    special_category = #{special_category},
+	    customer_service = #{customer_service},
+	    warnings = #{warnings}
+	    WHERE product_name = #{product_name}  	
+      ]]>
+	</update>
+
 
 	<!-- <resultMap id="productResult" type="goodsVO">
 		<result property="goods_id" column="goods_id" />

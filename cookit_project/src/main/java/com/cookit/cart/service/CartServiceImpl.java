@@ -29,6 +29,8 @@ public class CartServiceImpl  implements CartService{
 		List<ProductVO> myProductList=cartDAO.selectProductList(myCartList);
 		cartMap.put("myCartList", myCartList);
 		cartMap.put("myProductList",myProductList);
+		System.out.println("장바구니 리스트: " + myCartList);
+		System.out.println("상품 리스트: " + myProductList);
 		return cartMap;
 	}
 	

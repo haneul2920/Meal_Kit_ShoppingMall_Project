@@ -1,5 +1,7 @@
 package com.cookit.admin.product.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,30 +19,35 @@ import com.cookit.product.vo.ProductVO;
 
 
 
-
 @Service("AdminProductService")
 @Transactional(propagation=Propagation.REQUIRED)
 public class AdminProductServiceImpl implements AdminProductService {
 	@Autowired
-	private AdminProductDAO productAdiminDAO;
+	private AdminProductDAO adminProductDAO;
 	
 	@Override
 	public int addNewProduct(ProductVO productVO) throws Exception{
-		int product_id = productAdiminDAO.insertProduct(productVO);
+		int product_id = adminProductDAO.insertProduct(productVO);
 		return product_id;
 	}
 	
 	@Override
 	public int findCategoryId(String category_name) throws Exception{
-		int category_id = productAdiminDAO.findCategory(category_name);
-
+		int category_id = adminProductDAO.findCategory(category_name);
 		return category_id;
 	}
 	
 	@Override
 	public void insertInform(ProductInformVO productInformVO) throws Exception{
-		productAdiminDAO.insertInform(productInformVO);
+		adminProductDAO.insertInform(productInformVO);
 	}
+	
+	@Override
+	public List<ProductVO> listAllProduct() throws Exception {
+		List<ProductVO> productList=adminProductDAO.selectAllProductList();
+		return productList;
+	}
+	
 	
 //	@Override
 //	public List<ProductVO> listAllProduct() throws Exception {

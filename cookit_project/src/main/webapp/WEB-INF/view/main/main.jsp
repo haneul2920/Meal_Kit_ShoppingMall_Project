@@ -76,6 +76,84 @@
     justify-content: center;
     cursor: pointer;
   }
+  /* ---------------------상품------------------------- */
+   .container1, .container2 {
+   	margin-top: 100px;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    }
+      
+  .container1 {
+   margin-bottom: 100px;
+   }
+      
+  .container1, .container2 .header {
+   margin-top: 20px;
+   font-size: 24px;
+   font-weight: bold;
+   color: #FF4500;
+   }
+      
+  .product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px; 
+  }
+
+  .product-card {
+   border: none;
+   border-radius: 8px;
+   overflow: hidden;
+   background-color: none;
+   transition: transform 0.2s, box-shadow 0.2s;
+   }
+   
+   .container2 .product-card:hover .product-image {
+   border-color: #f56a00; 
+   }
+   
+   .product-image {
+   width: 150px; /* 이미지 요소의 너비 */
+   height: 150px; /* 이미지 요소의 높이 */
+   object-fit: contain; /* 이미지를 잘라내면서 컨테이너에 꽉 차게 */
+   border: 3px solid transparent; 
+   box-sizing: border-box;
+   background-color: #f9f9f9; 
+   transition: border 0.1s ease-in-out;
+   }
+   
+   .product-info {
+    padding: 8px;
+    text-align: center;
+    }
+
+   .product-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 5px;
+    }
+   
+    .product-name  a{
+     text-decoration: none;
+    }
+
+   .product-price {
+    font-size: 18px;
+    color: #f56a00;
+    font-weight: bold;
+    margin-bottom: 5px;
+    }
+   
+   .product-rating span {
+  	font-size: 15px;
+  	color: gray;
+    }
+   
+   .container2 p {
+   color: gray;
+   }
 </style>
 
 <div class="swiper-container main-slide swiper-container-initialized swiper-container-horizontal">
@@ -105,7 +183,6 @@
                     <div class="inner">
                         <div class="main-slide-btns">
                             <div class="swiper-pagination swiper-pagination-fraction"><span class="swiper-pagination-current">3</span>｜<span class="swiper-pagination-total">11</span></div>
-                            <a href="#main-event" class="btn-slide-all ui-open-pop"><span class="blind">이벤트 전체보기</span></a>
                         </div><!--// main-slide-btns -->
                         <div class="main-slide-playctrl">
                             <button type="button" class="swiper-button-pause"><span class="blind">PLAY</span></button>
@@ -114,31 +191,45 @@
                         <!--<button type="button" class="swiper-button-ctrl pause"></button>-->
                     </div>
                 </div><!--// main-slide-bottom -->
-            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-            
-            <div class="main_product">
-		<c:forEach var="item" items="${productList}">
-			<div class="product_card">
-				<div class="product_info">
-					<img class="product_image" width="75" alt="" 
-					     src="${contextPath}/thumbnails.do?product_id=${item.product_id}&imageName=${item.product_image}">
-					<div class="product_details">
-						<h2 class="product_name">
-							<a href="${contextPath}/main/main.do">${item.product_name}</a>
-						</h2>
-						<span class="product_price">${item.price}원</span>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>       
+			<div class="main_product">
+			 	<div class="container1">
+			    	<div class="header">고객님, 이 밀키트 어때요?</div>
+			    	<div class="product-grid">
+						<c:forEach var="item" items="${recommendProduct}">
+							<div class="product-card">
+								<a href="${contextPath}/product/detailProduct.do?product_id=${item.product_id }">
+								<img class="product-image" width="75" alt=""
+								src="${contextPath}/thumbnails.do?product_id=${item.product_id}
+								&imageName=${item.product_image}">
+								</a>
+								<div class="product-info">
+									<div class="product-name">${item.product_name}</div>
+									<div class="product-price"><fmt:formatNumber value="${item.price}" pattern="#,###" />원</div>
+									<div class="product-rating"><span style="margin-left:auto;">★ 4.8</span></div>
+								</div>
+							</div>
+						</c:forEach>
 					</div>
 				</div>
-	<!-- 			<div class="product_actions">
-					<input type="checkbox" class="product_checkbox" value="">
-					<div class="buy_buttons">
-						<ul>
-							<li><a href="#">장바구니</a></li>
-							<li><a href="#">구매하기</a></li>
-							<li><a href="#">비교하기</a></li>
-						</ul>
+				<div class="container2">
+			    	<div class="header">이주의 신상 밀키트예요</div>
+			    	 <p>주목 할 만한 신제품을 소개합니다.</p>
+			    	<div class="product-grid">
+						<c:forEach var="item" items="${newProduct}">
+							<div class="product-card">
+								<a href="${contextPath}/product/detailProduct.do?product_id=${item.product_id }">
+								<img class="product-image" width="75" alt=""
+								src="${contextPath}/thumbnails.do?product_id=${item.product_id}
+								&imageName=${item.product_image}">
+								</a>
+								<div class="product-info">
+									<div class="product-name">${item.product_name}</div>
+								</div>
+							</div>
+						</c:forEach>
 					</div>
-				</div> -->
-			</div>
-		</c:forEach>
-	</div>
+				</div>
+			</div>	
+				 	
+

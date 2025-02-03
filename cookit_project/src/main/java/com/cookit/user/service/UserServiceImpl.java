@@ -48,4 +48,8 @@ public class UserServiceImpl implements UserService {
         userDAO.updateUser(userVO);
     }
     
+    @Override
+    public void updatePassword(UserVO userVO) throws Exception {
+        userDAO.updatePassword(userVO);
+    }
 }

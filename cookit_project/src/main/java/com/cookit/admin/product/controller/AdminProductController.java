@@ -18,7 +18,6 @@ public interface AdminProductController {
 //	public @ResponseBody String keywordSearch(@RequestParam("keyword") String keyword,HttpServletRequest request, HttpServletResponse response) throws Exception;
 //	public ModelAndView searchProduct(@RequestParam("searchWord") String searchWord,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView goForm(HttpServletRequest reuest, HttpServletResponse response) throws Exception;
-
 	public ResponseEntity insertProduct(@ModelAttribute("productVO") ProductVO _productVO, @ModelAttribute("productInformVO") ProductInformVO _productInformVO,
 	         MultipartHttpServletRequest multipartRequest, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

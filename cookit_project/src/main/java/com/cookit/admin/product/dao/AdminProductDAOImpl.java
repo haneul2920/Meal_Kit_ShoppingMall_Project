@@ -29,9 +29,18 @@ public class AdminProductDAOImpl  implements AdminProductDAO{
 	}
 	
 	@Override
-	public int findCategory(String category_name) throws DataAccessException {
-		int category_id =sqlSession.selectOne("mapper.admin_product.findCategory", category_name);
-		return category_id;
+	public Integer findCategory(String category_name) throws DataAccessException {
+	    if (category_name == null || category_name.trim().isEmpty()) {
+	        throw new IllegalArgumentException("Category name cannot be null or empty");
+	    }
+
+	    Integer category_id = sqlSession.selectOne("mapper.admin_product.findCategory", category_name);
+
+	    if (category_id == null) {
+	        throw new NullPointerException("No category found for name: " + category_name);
+	    }
+
+	    return category_id;
 	}
 	
 	@Override
@@ -39,6 +48,12 @@ public class AdminProductDAOImpl  implements AdminProductDAO{
 		sqlSession.insert("mapper.admin_product.insertInform", productInformVO);
 	}
 	
+
+	public List<ProductVO> selectAllProductList() throws DataAccessException {
+		List<ProductVO> productList=sqlSession.selectList("mapper.admin_product.selectAllProductList");
+	   return productList;	
+     
+	}
 //	@Override
 //	public List<ProductVO> selectAllProductList() throws DataAccessException {
 //		List<ProductVO> productList=(ArrayList)sqlSession.selectList("mapper.product.selectAllProductList");

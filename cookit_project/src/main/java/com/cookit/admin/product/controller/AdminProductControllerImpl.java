@@ -3,6 +3,7 @@ package com.cookit.admin.product.controller;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,33 +25,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cookit.common.base.BaseController;
 import com.cookit.admin.product.service.AdminProductService;
+import com.cookit.product.service.ProductService;
 import com.cookit.product.vo.ProductInformVO;
 import com.cookit.product.vo.ProductVO;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminProductControllerImpl extends BaseController implements AdminProductController {
-	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookit\\file_repo";
+	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookitMall\\file_repo";
 	@Autowired
 	private AdminProductService adminProductService;
 
-	
-	
-//	@RequestMapping(value="/productDetail.do" ,method = RequestMethod.GET)
-//	public ModelAndView goodsDetail(@RequestParam("product_id") String product_id,
-//			                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		String viewName=(String)request.getAttribute("viewName");
-//		HttpSession session=request.getSession();
-//		ProductVO productVO = new ProductVO();
-//		productService.productDetail(product_id);
-//		ModelAndView mav = new ModelAndView(viewName);
-//		mav.addObject("prodcutVO", productVO);
-////		addGoodsInQuick(goods_id,goodsVO,session);
-//		return mav;
-//	}
-	
-	
-	// ��ǰ ���� �Է��������� ����
+
+	// �긽�뭹 �벑濡� �럹�씠吏� �젒�냽
 	@Override
 	@RequestMapping(value="/goForm.do" ,method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView goForm(
@@ -62,7 +49,20 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 		return mav;
 	}
 	
-	// �Էµ� �����͸� db�� �Է��ϵ��� ����
+	// �긽�뭹 由ъ뒪�듃 �뀒�뒪�듃 �럹�씠吏� �젒�냽
+	@RequestMapping(value="/productList.do" ,method = {RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView test(
+			                 HttpServletRequest request, HttpServletResponse response)  throws Exception{
+		String viewName=(String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		List<ProductVO> productList= adminProductService.listAllProduct();
+		mav.setViewName(viewName);
+		mav.addObject("productList", productList);
+		System.out.println("viewName : "+ viewName);
+		return mav;
+	}
+	
+	// �긽�뭹 �벑濡�
 	@Override
 	@RequestMapping(value="/insertProduct.do" ,method = {RequestMethod.POST,RequestMethod.GET})
 	public ResponseEntity insertProduct( @ModelAttribute("productVO") ProductVO productVO, @ModelAttribute("productInformVO") ProductInformVO productInformVO,
@@ -77,8 +77,8 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 		Map newProductMap = new HashMap();
 		Enumeration enu=multipartRequest.getParameterNames();
 		while(enu.hasMoreElements()){
-			String name=(String)enu.nextElement(); // <input>�� name �Ӽ� ��
-			String value=multipartRequest.getParameter(name); // null ������ ��ü�� ����
+			String name=(String)enu.nextElement(); 
+			String value=multipartRequest.getParameter(name); 
 			newProductMap.put(name,value);
 		}
 		
@@ -86,7 +86,7 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 		String reg_id = request.getParameter("user_id"); 
 		String category_name = request.getParameter("product_category"); 
 		int category_id = adminProductService.findCategoryId(category_name);
-		ProductVO imageFileList =upload(multipartRequest); // �̹���, �̹��� ���� ���� ���� �̸� ����Ʈ
+		ProductVO imageFileList =upload(multipartRequest); 
 		String imageName = imageFileList.getProduct_image();
 		String imageInform = imageFileList.getProduct_inf_image();
 
@@ -114,8 +114,8 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 				FileUtils.moveFileToDirectory(srcFile2, destDir2,true);
 			}
 			message= "<script>";
-			message += " alert('상품등록이 완료되었습니다.');";
-			message +=" location.href='"+multipartRequest.getContextPath()+"/admin/goForm.do';";
+			message += " alert('상품이 등록되 었습니다.');";
+			message +=" location.href='"+multipartRequest.getContextPath()+"/admin/test.do';";
 			message +=("</script>");
 		}catch(Exception e) {
 			if(imageFileList!=null) {
@@ -126,7 +126,7 @@ public class AdminProductControllerImpl extends BaseController implements AdminP
 			}
 			
 			message= "<script>";
-			message += " alert('상품등록에 실패했습니다.');";
+			message += " alert('상품등록에 실패 했습니다.');";
 			message +=" location.href='"+multipartRequest.getContextPath()+"/admin/goForm.do';";
 			message +=("</script>");
 			e.printStackTrace();

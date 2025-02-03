@@ -32,32 +32,51 @@ public class UserControllerImpl extends BaseController implements UserController
 	@Autowired
 	private UserVO userVO;
 
-	@Override	
-	@RequestMapping(value="/login.do" ,method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam Map<String, String> loginMap,
-			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		userVO=userService.login(loginMap);
-		if(userVO!= null && userVO.getUser_id()!=null){
-			HttpSession session=request.getSession();
-			session=request.getSession();
-			session.setAttribute("isLogOn", true);
-			session.setAttribute("userInfo",userVO);
-			
-			String action=(String)session.getAttribute("action");
-			if(action!=null && action.equals("/order/orderEachProduct.do")){
-				mav.setViewName("forward:"+action);
-			}else{
-				mav.setViewName("redirect:/main/main.do");	
-			}			
-		}else{
-			String message="아이디나  비밀번호가 틀립니다. 다시 로그인해주세요";
-			mav.addObject("message", message);
-			mav.setViewName("/user/loginForm");
-		}
-		mav.setViewName("/main/main");
-		return mav;
-	}
+	/*
+	 * @Override
+	 * 
+	 * @RequestMapping(value="/login.do" ,method = RequestMethod.POST) public
+	 * ModelAndView login(@RequestParam Map<String, String> loginMap,
+	 * HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 * ModelAndView mav = new ModelAndView(); userVO=userService.login(loginMap);
+	 * if(userVO!= null && userVO.getUser_id()!=null){ HttpSession
+	 * session=request.getSession(); session=request.getSession();
+	 * session.setAttribute("isLogOn", true);
+	 * session.setAttribute("userInfo",userVO);
+	 * 
+	 * String action=(String)session.getAttribute("action"); if(action!=null &&
+	 * action.equals("/order/orderEachProduct.do")){
+	 * mav.setViewName("forward:"+action); }else{
+	 * mav.setViewName("redirect:/main/main.do"); } }else{ String
+	 * message="아이디나  비밀번호가 틀립니다. 다시 로그인해주세요"; mav.addObject("message", message);
+	 * mav.setViewName("/user/loginForm"); } return mav; }
+	 */
+	
+	@Override
+    @RequestMapping(value="/login.do", method = RequestMethod.POST)
+    public ModelAndView login(@RequestParam Map<String, String> loginMap,
+                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        userVO = userService.login(loginMap);
+
+        if(userVO != null && userVO.getUser_id() != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("isLogOn", true);
+            session.setAttribute("userInfo", userVO);
+
+            String redirectUrl = (String) session.getAttribute("redirectUrl");
+            if (redirectUrl != null) {
+                session.removeAttribute("redirectUrl");
+                mav.setViewName("redirect:" + redirectUrl);
+            } else {
+                mav.setViewName("redirect:/main/main.do");
+            }
+        } else {
+            mav.addObject("message", "아이디 또는 비밀번호가 올바르지 않습니다.");
+            mav.setViewName("/user/loginForm");
+        }
+        return mav;
+    }
 
 	@Override
 	@RequestMapping(value="/logout.do" ,method = RequestMethod.GET)
@@ -126,29 +145,64 @@ public class UserControllerImpl extends BaseController implements UserController
         mav.addObject("user", user);
         return mav;
     }
-
+    
+	
     @Override
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public void updateUser(@ModelAttribute UserVO userVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String newPassword = request.getParameter("password2");
-        if (newPassword != null && !newPassword.isEmpty()) {
-            userVO.setUser_pwd(newPassword);
-        }
-        userService.updateUser(userVO);
-
+    public ModelAndView updateUser(@ModelAttribute UserVO userVO, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
-        session.setAttribute("loginUser", userVO);
+        UserVO loggedInUser = (UserVO) session.getAttribute("userInfo");
 
-        System.out.println("Updated Session User: " + session.getAttribute("loginUser"));
+        ModelAndView mav = new ModelAndView("/user/updateForm");
 
-        // JavaScript alert 창 및 리다이렉트 처리
-        response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().write(
-            "<script>" +
-            "alert('회원 정보가 수정되었습니다.');" +
-            "location.href='" + request.getContextPath() + "/main/main.do';" +
-            "</script>"
-        );
+        if (loggedInUser == null) {
+            mav.addObject("message", "로그인이 필요합니다.");
+            mav.addObject("redirectUrl", request.getContextPath() + "/user/loginForm.do");
+            return mav;
+        }
+
+        userVO.setUser_id(loggedInUser.getUser_id());
+        userVO.setUser_pwd(loggedInUser.getUser_pwd());
+        userService.updateUser(userVO);
+        session.setAttribute("userInfo", userVO);
+
+        mav.addObject("message", "회원 정보가 성공적으로 수정되었습니다.");
+        mav.addObject("redirectUrl", request.getContextPath() + "/main/main.do");
+
+        return mav;
+    }
+
+    @Override
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public ModelAndView updatePassword(@ModelAttribute UserVO userVO, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        UserVO loggedInUser = (UserVO) session.getAttribute("userInfo");
+
+        ModelAndView mav = new ModelAndView("/user/updateForm");
+
+        if (loggedInUser == null) {
+            mav.addObject("message", "로그인이 필요합니다.");
+            mav.addObject("redirectUrl", request.getContextPath() + "/user/loginForm.do");
+            return mav;
+        }
+
+        String newPassword = request.getParameter("password2");
+        String confirmPassword = request.getParameter("password3");
+
+        if (!newPassword.equals(confirmPassword)) {
+            mav.addObject("message", "새 비밀번호가 일치하지 않습니다.");
+            mav.addObject("redirectUrl", request.getContextPath() + "/user/updateForm.do");
+            return mav;
+        }
+
+        loggedInUser.setUser_pwd(newPassword);
+        userService.updatePassword(loggedInUser);
+        session.setAttribute("userInfo", loggedInUser);
+
+        mav.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
+        mav.addObject("redirectUrl", request.getContextPath() + "/main/main.do");
+
+        return mav;
     }
 	
 }

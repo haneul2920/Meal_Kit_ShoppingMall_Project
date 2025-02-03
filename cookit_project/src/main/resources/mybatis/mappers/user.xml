@@ -99,10 +99,17 @@
   	  	SET username = #{username},
         roadAddress = #{roadAddress}, 
         jibunAddress = #{jibunAddress},
-        namujiAddress = #{namujiAddress},
-        user_pwd = #{user_pwd}           
+        namujiAddress = #{namujiAddress}          
     WHERE user_id = #{user_id}
     ]]>
     </update>
+    
+    <update id="updatePassword" parameterType="userVO">
+    <![CDATA[
+    UPDATE user
+    SET user_pwd = #{user_pwd}
+    WHERE user_id = #{user_id}
+    ]]>
+</update>
     
 </mapper>

@@ -11,22 +11,13 @@
 	type="text/css" media="screen">
 <script type="text/javascript">
 	//상품 등록 함수
-	function fn_add_new_goods(obj) {
+	function fn_add_new_product(obj) {
 	 	var ImageInput1 = document.querySelector("input[name='product_image_']"); // 첫 번째 파일 입력 필드
 	 	var ImageInput2 = document.querySelector("input[name='product_inform_']"); // 두 번째 파일 입력 필드
 		if (!ImageInput1 || !ImageInput2 || !ImageInput1.value || !ImageInput2.value) {
 			alert("상품 이미지와 상세정보 이미지 모두를 첨부해야 합니다.");
 			return;
 		} 
-/* 	 	var inputs = document.querySelectorAll("#tab2 input");
-
-	        // 각 input 요소를 순회하며 값이 비어 있는 경우 기본값 설정
-	        inputs.forEach(function(input, index) {
-	            if (!input.value.trim()) { // 값이 비어 있는 경우
-	                input.value = 'default';
-	            }
-	        }); */
-
 		// 폼 제출
 		obj.submit();
 	}
@@ -55,7 +46,7 @@
 										<option value="중식">중식
 										<option value="일식">일식
 										<option value="양식">양식
-										<option value="분식">한식
+										<option value="분식">분식
 										<option value="동남아식">동남아식
 								</select></td>
 							</tr>
@@ -77,10 +68,10 @@
 					<div class="tab_content" id="tab2">
 						<H4>상품 상세 정보</H4>
 						<table>
-							<tr>
+						<!-- 	<tr>
 								<td>작성자</td>
 								<td><input name="user_id" type="text" size="40" /></td>
-							</tr>
+							</tr> -->
 							<tr>
 								<td>소비기한</td>
 								<td><input name="product_ex_date" type="text" size="40" /></td>
@@ -127,7 +118,7 @@
 							</tr>
 							<tr>
 								<td>소비자 상담번호</td>
-								<td><input name="customer_service" type="text" size="40" value="쿠키트 고객센터 (1668-7788"/></td>
+								<td><input name="customer_service" type="text" size="40" value="쿠키트 고객센터 (1668-7788)"/></td>
 							</tr>
 							<tr>
 								<td>주의사항</td>
@@ -154,7 +145,7 @@
 				<table>
 					<tr>
 						<td align=center>
-						<input type="button" value="상품 등록하기" onClick="fn_add_new_goods(this.form)" />
+						<input type="button" value="상품 등록하기" onClick="fn_add_new_product(this.form)" />
 						</td>
 					</tr>
 				</table>

@@ -15,7 +15,7 @@ public interface AdminProductService {
 	public int  addNewProduct(ProductVO productVO) throws Exception;
 	public int findCategoryId(String category_name) throws Exception;
 	public void insertInform(ProductInformVO productInformVO) throws Exception;
-//	public List<ProductVO> listAllProduct() throws Exception;
+	public List<ProductVO> listAllProduct() throws Exception;
 //	public ProductVO productDetail(int product_id) throws Exception;
 //	public List<GoodsVO> listNewGoods(Map condMap) throws Exception;
 //	public Map goodsDetail(int goods_id) throws Exception;

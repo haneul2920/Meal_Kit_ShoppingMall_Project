@@ -46,4 +46,9 @@ public class UserDAOImpl  implements UserDAO{
 	public void updateUser(UserVO userVO) throws Exception{
 		sqlSession.update("mapper.user.updateUser", userVO);
 	}
+	
+    @Override
+    public void updatePassword(UserVO userVO) throws Exception {
+        sqlSession.update("mapper.user.updatePassword", userVO);
+    }
 }

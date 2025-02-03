@@ -52,37 +52,40 @@ public class CartControllerImpl extends BaseController implements CartController
 	}
 
 	
-	@RequestMapping(value="/addPRoductInCart.do" ,method = RequestMethod.POST,produces = "application/text; charset=utf8")
-	public  @ResponseBody String addProductInCart(@RequestParam("product_id") int product_id,
-			                    HttpServletRequest request, HttpServletResponse response)  throws Exception{
-		HttpSession session=request.getSession();
-		userVO=(UserVO)session.getAttribute("userInfo");
-		String user_id=userVO.getUser_id();
-		
-		cartVO.setUser_id(user_id);
-		//카트 등록전에 이미 등록된 제품인지 판별한다.
-		cartVO.setProduct_id(product_id);
-		cartVO.setUser_id(user_id);
-		boolean isAreadyExisted=cartService.findCartProduct(cartVO);
-		System.out.println("isAreadyExisted:"+isAreadyExisted);
-		if(isAreadyExisted==true){
-			return "already_existed";
-		}else{
-			cartService.addProductInCart(cartVO);
-			return "add_success";
-		}
+	@RequestMapping(value = "/addProductInCart.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	public @ResponseBody String addProductInCart(@RequestParam("product_id") int product_id,
+	                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    HttpSession session = request.getSession();
+	    userVO = (UserVO) session.getAttribute("userInfo");
+	    
+	    if (userVO == null) {
+	        return "not_logged_in"; // 로그인되지 않은 경우
+	    }
+
+	    String user_id = userVO.getUser_id();
+	    cartVO.setUser_id(user_id);
+	    cartVO.setProduct_id(product_id);
+
+	    boolean isAreadyExisted = cartService.findCartProduct(cartVO);
+	    if (isAreadyExisted) {
+	        return "already_existed";
+	    } else {
+	        cartService.addProductInCart(cartVO);
+	        return "add_success";
+	    }
 	}
+	
 	@Override
 	@RequestMapping(value="/modifyCartQty.do" ,method = RequestMethod.POST)
 	public @ResponseBody String  modifyCartQty(@RequestParam("product_id") int product_id,
-			                                   @RequestParam("cart_product_qty") int cart_product_qty,
+			                                   @RequestParam("amount") int amount,
 			                                    HttpServletRequest request, HttpServletResponse response)  throws Exception{
 		HttpSession session=request.getSession();
 		userVO=(UserVO)session.getAttribute("userInfo");
 		String user_id=userVO.getUser_id();
 		cartVO.setProduct_id(product_id);
 		cartVO.setUser_id(user_id);
-		cartVO.setCart_product_qty(cart_product_qty);
+		cartVO.setCart_product_qty(amount);
 		boolean result=cartService.modifyCartQty(cartVO);
 		
 		if(result==true){
