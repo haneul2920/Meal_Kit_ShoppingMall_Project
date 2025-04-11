@@ -7,6 +7,7 @@
 <%
   request.setCharacterEncoding("utf-8");
 %>
+<link href="${contextPath}/resources/css/main.css" rel="stylesheet" type="text/css" media="screen">
 <html>
 <head>
 <meta charset="utf-8">
@@ -24,12 +25,23 @@
 			<header>
 				   <tiles:insertAttribute name="header" />
 			</header>
-			<article>
-			 	<tiles:insertAttribute name="body" />
+		</div>
+    </div>
+			<article>    			
+				<c:if test="${viewName eq '/main/main'}">
+				    <tiles:insertAttribute name="banner" />
+				</c:if>
+				 <div id="outer_wrap">
+					<div id="wrap">
+			 			<tiles:insertAttribute name="body" />
+			 		</div>
+			 	</div>
 			</article>
+	<div id="outer_wrap">
+		<div id="wrap">
 			<footer>
         		<tiles:insertAttribute name="footer" />
         	</footer>
-		</div>
-    </div>        	
+       </div>
+    </div>
 </body>   

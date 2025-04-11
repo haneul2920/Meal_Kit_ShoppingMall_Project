@@ -12,7 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cookit.user.vo.UserVO;
 
 public interface MyPageController {
-	public ModelAndView main(@RequestParam(required = false,value="message")  String message,HttpServletRequest request, HttpServletResponse response)  throws Exception ;
+	public ModelAndView main(HttpServletRequest request, HttpServletResponse response)  throws Exception ;
+	public ModelAndView orderDetail(@RequestParam Map<String, String> receiverMap,HttpServletRequest request, HttpServletResponse response)  throws Exception ;
 //	public ModelAndView myOrderDetail(@RequestParam("product_id")  String order_id,HttpServletRequest request, HttpServletResponse response)  throws Exception;
 //	public ModelAndView cancelMyOrder(@RequestParam("product_id")  String order_id,HttpServletRequest request, HttpServletResponse response)  throws Exception;
 //	public ModelAndView listMyOrderHistory(@RequestParam Map<String, String> dateMap,HttpServletRequest request, HttpServletResponse response)  throws Exception;

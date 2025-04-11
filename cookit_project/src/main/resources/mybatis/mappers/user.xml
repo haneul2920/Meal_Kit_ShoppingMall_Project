@@ -7,7 +7,6 @@
 <!-- 리절트 맵 정의 -->	
 	<resultMap id="userResult" type="UserVO">
 		
-		<result property="user_code" column="user_code" />
 		<result property="user_type" column="user_type" />
 		<result property="manager_id" column="manager_id" />
 		<result property="user_id" column="user_id" />
@@ -16,6 +15,7 @@
 		<result property="phone_num" column="phone_num" />
 		<result property="email1" column="email1" />
 		<result property="email2" column="email2" />
+		<result property="zipcode" column="zipcode" />
 		<result property="jibunAddress" column="jibunAddress" />
 		<result property="roadAddress" column="roadAddress" />
 		<result property="namujiAddress" column="namujiAddress" />		
@@ -27,10 +27,15 @@
 	    <![CDATA[
 			select * from user 
 			 where user_id=#{user_id}
-			 and user_pwd=#{user_pwd}			
+			 and user_pwd=#{user_pwd}	
 			 
 		]]>
 	</select>
+	<select id="selectNaverUserById" parameterType="String" resultType="userVO">
+	<![CDATA[
+        SELECT * FROM user WHERE user_id = #{user_Id}
+        ]]>
+    </select>
 	
 	<select id="selectOverlappedID" parameterType="String" resultType="String">
 	<![CDATA[
@@ -43,6 +48,29 @@
 		WHERE user_id = #{id}
 	   ]]>
 	</select>
+	
+  <insert id="insertNaverUser" parameterType="userVO">
+  <![CDATA[
+        INSERT INTO user (user_id, user_type, username, phone_num, email1, email2, roadAddress, jibunAddress, namujiAddress, zipcode, gender)
+        VALUES (#{user_id},#{user_type} , #{username}, #{phone_num}, #{email1}, #{email2}, #{roadAddress}, #{jibunAddress}, #{namujiAddress}, #{zipcode}, #{gender})
+     ]]> 
+    </insert>
+    
+    <update id="updateNaverUser" parameterType="userVO">
+    <![CDATA[
+        UPDATE user
+        SET username = #{username},
+            phone_num = #{phone_num},
+            email1 = #{email1},
+            email2 = #{email2},
+            roadAddress = #{roadAddress},
+            jibunAddress = #{jibunAddress},
+            namujiAddress = #{namujiAddress},
+            zipcode = #{zipcode},
+            gender = #{gender}
+        WHERE user_id = #{user_id}
+        ]]>
+    </update>
 	
   <insert id="insertNewUser"  parameterType="userVO">
   <![CDATA[
@@ -57,6 +85,7 @@
     					 jibunAddress,
     					 roadAddress,
     					 namujiAddress,
+    					 zipcode,
     					 cash_point,
     					 gender
     					 )
@@ -71,7 +100,8 @@
                                     #{jibunAddress},
                                     #{roadAddress},
                                     #{namujiAddress},
-                                    #{cash_point},
+                                    #{zipcode},
+                                    0,
                                     #{gender}
                                     )
                                   
@@ -79,10 +109,10 @@
    ]]>      
   </insert>
   
-    <select id="selectUserInfo" parameterType="String" resultType="com.cookit.user.vo.UserVO">
+    <select id="selectUserInfo" parameterType="String" resultType="userVO">
     <![CDATA[
         SELECT * 
-        FROM user_table 
+        FROM user
         WHERE user_id = #{user_id}
          ]]>  
     </select>
@@ -99,10 +129,22 @@
   	  	SET username = #{username},
         roadAddress = #{roadAddress}, 
         jibunAddress = #{jibunAddress},
-        namujiAddress = #{namujiAddress},
-        user_pwd = #{user_pwd}           
+        namujiAddress = #{namujiAddress}          
     WHERE user_id = #{user_id}
     ]]>
     </update>
     
+    <update id="updatePassword" parameterType="userVO">
+    <![CDATA[
+    UPDATE user
+    SET user_pwd = #{user_pwd}
+    WHERE user_id = #{user_id}
+    ]]>
+	</update>
+	
+	<delete id="deleteUser" parameterType="String">
+	<![CDATA[
+	   DELETE FROM user
+	   WHERE user_id = #{user_id} ]]>
+	</delete>
 </mapper>

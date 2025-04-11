@@ -3,57 +3,100 @@
 	isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<link href="${contextPath}/resources/css/main.css" rel="stylesheet" type="text/css" media="screen">
 <!DOCTYPE html >
 <html>
 <head>
 <meta charset="utf-8">
 <title>회원 가입 창</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+    h3 {
+        color: #333;
+    }
+    #detail_table {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .fixed_join {
+        width: 150px;
+        font-weight: bold;
+    }
+    input[type="text"], input[type="password"], select {
+        width: 200px;
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    input[type="submit"], input[type="reset"], input[type="button"] {
+        background-color: #5cb85c;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover {
+        background-color: #4cae4c;
+    }
+    .dot_line {
+        border-bottom: 1px dotted #ddd;
+    }
+    .clear {
+        clear: both;
+    }
+</style>
 <script>
 function updateEmailDomain() {
     var emailSelect = document.getElementById("email_select");
     var email2 = document.getElementById("email2");
 
-    // 선택된 옵션 값이 '직접입력'이 아닐 경우, 이메일2 입력란에 도메인 자동 입력
     if (emailSelect.value !== "non") {
       email2.value = emailSelect.value;
     } else {
-      email2.value = ""; // '직접입력' 선택시 이메일2 입력란 초기화
+      email2.value = "";
     }
   }
 function execDaumPostcode() {
-	  // Daum 주소 검색 API 객체 생성
 	  var postcode = new daum.Postcode({
 	    oncomplete: function(data) {
-	      // 주소 선택 후 실행될 로직
-	      
-	      // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-	      var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-	      var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+	      var fullRoadAddr = data.roadAddress;
+	      var extraRoadAddr = '';
 
-	      // 법정동명이 있을 경우 추가
 	      if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
 	        extraRoadAddr += data.bname;
 	      }
-	      // 건물명이 있고, 공동주택일 경우 추가
 	      if (data.buildingName !== '' && data.apartment === 'Y') {
 	        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
 	      }
-	      // 도로명, 지번 조합형 주소가 있을 경우 괄호 추가
 	      if (extraRoadAddr !== '') {
 	        extraRoadAddr = ' (' + extraRoadAddr + ')';
 	      }
-	      // 도로명 주소와 추가 주소 조합
 	      if (fullRoadAddr !== '') {
 	        fullRoadAddr += extraRoadAddr;
 	      }
 
-	      // 우편번호와 주소 정보를 입력 필드에 삽입
-	      document.getElementById('zipcode').value = data.zonecode; // 5자리 새 우편번호
+	      document.getElementById('zipcode').value = data.zonecode;
 	      document.getElementById('roadAddress').value = fullRoadAddr;
 	      document.getElementById('jibunAddress').value = data.jibunAddress;
 
-	      // 예상 주소 안내 표시
 	      if (data.autoRoadAddress) {
 	        var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
 	        document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
@@ -64,16 +107,12 @@ function execDaumPostcode() {
 	        document.getElementById('guide').innerHTML = '';
 	      }
 
-	      // 팝업 닫기 (확실히 팝업을 닫기 위한 명시적 호출)
 	      postcode.close();
 	    }
 	  });
 
-	  // 팝업 열기
 	  postcode.open();
 	};
-
-
 
 function fn_overlapped(){
     var _id=$("#_user_id").val();
@@ -138,7 +177,7 @@ function fn_overlapped(){
 					<td><select  name="phone_num">
 							<option>없음</option>
 							<option selected value="010">010</option>							
-					</select> - <input size="10px"  type="text" name="phone_num" required> - <input size="10px"  type="text"name="phone_num" required><br> <br> 
+					</select> - <input size="10px"  type="text" name="phone_num" required minlength="4"> - <input size="10px"  type="text"name="phone_num" required minlength="4"><br> <br> 
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed_join">이메일<br>(e-mail)</td>

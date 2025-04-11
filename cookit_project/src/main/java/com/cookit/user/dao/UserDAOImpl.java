@@ -43,7 +43,31 @@ public class UserDAOImpl  implements UserDAO{
 	}
 	
 	@Override
+    public UserVO selectNaverUserById(String userId) throws Exception{
+        return sqlSession.selectOne("mapper.user.selectNaverUserById", userId);
+    }
+	
+	@Override
 	public void updateUser(UserVO userVO) throws Exception{
 		sqlSession.update("mapper.user.updateUser", userVO);
 	}
+	
+    @Override
+    public void updatePassword(UserVO userVO) throws Exception {
+        sqlSession.update("mapper.user.updatePassword", userVO);
+    }
+
+	@Override
+	public void insertNaverUser(UserVO userVO) throws Exception {
+		sqlSession.insert("mapper.user.insertNaverUser",userVO);		
+	}
+	@Override
+    public void updateNaverUser(UserVO user) {
+        sqlSession.update("mapper.user.updateNaverUser", user);
+    }
+	
+    @Override
+    public void deleteUser(String userId) throws DataAccessException {
+        sqlSession.delete("mapper.user.deleteUser", userId);
+    }
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.eclipse.core.internal.runtime.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,46 +53,57 @@ public class CartControllerImpl extends BaseController implements CartController
 	}
 
 	
-	@RequestMapping(value="/addPRoductInCart.do" ,method = RequestMethod.POST,produces = "application/text; charset=utf8")
-	public  @ResponseBody String addProductInCart(@RequestParam("product_id") int product_id,
-			                    HttpServletRequest request, HttpServletResponse response)  throws Exception{
-		HttpSession session=request.getSession();
-		userVO=(UserVO)session.getAttribute("userInfo");
-		String user_id=userVO.getUser_id();
-		
-		cartVO.setUser_id(user_id);
-		//카트 등록전에 이미 등록된 제품인지 판별한다.
-		cartVO.setProduct_id(product_id);
-		cartVO.setUser_id(user_id);
-		boolean isAreadyExisted=cartService.findCartProduct(cartVO);
-		System.out.println("isAreadyExisted:"+isAreadyExisted);
-		if(isAreadyExisted==true){
-			return "already_existed";
-		}else{
-			cartService.addProductInCart(cartVO);
-			return "add_success";
-		}
+	@RequestMapping(value = "/addProductInCart.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	public @ResponseBody String addProductInCart(@RequestParam("product_id") int product_id,
+												 @RequestParam("amount") int amount,
+	                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    HttpSession session = request.getSession();
+	    userVO = (UserVO) session.getAttribute("userInfo");
+	    
+	    if (userVO == null) {
+	        return "not_logged_in"; // 로그인되지 않은 경우
+	    }
+
+	    String user_id = userVO.getUser_id();
+	    cartVO.setUser_id(user_id);
+	    cartVO.setProduct_id(product_id);
+	    cartVO.setAmount(amount);
+
+	    boolean isAreadyExisted = cartService.findCartProduct(cartVO);
+	    if (isAreadyExisted) {
+	        return "already_existed";
+	    } else {
+	        cartService.addProductInCart(cartVO);
+	        return "add_success";
+	    }
 	}
+	
 	@Override
-	@RequestMapping(value="/modifyCartQty.do" ,method = RequestMethod.POST)
-	public @ResponseBody String  modifyCartQty(@RequestParam("product_id") int product_id,
-			                                   @RequestParam("cart_product_qty") int cart_product_qty,
-			                                    HttpServletRequest request, HttpServletResponse response)  throws Exception{
-		HttpSession session=request.getSession();
-		userVO=(UserVO)session.getAttribute("userInfo");
-		String user_id=userVO.getUser_id();
-		cartVO.setProduct_id(product_id);
-		cartVO.setUser_id(user_id);
-		cartVO.setCart_product_qty(cart_product_qty);
-		boolean result=cartService.modifyCartQty(cartVO);
-		
-		if(result==true){
-		   return "modify_success";
-		}else{
-			  return "modify_failed";	
-		}
-		
+	@RequestMapping(value="/modifyCartQty.do", method = RequestMethod.POST)
+	public @ResponseBody String modifyCartQty(
+	        @RequestParam("product_id") int product_id,
+	        @RequestParam("amount") int amount,
+	        HttpServletRequest request) throws Exception {
+
+	    HttpSession session = request.getSession();
+	    UserVO userVO = (UserVO) session.getAttribute("userInfo");
+
+	    if (userVO == null) {
+	        return "{\"status\":\"modify_failed\"}";
+	    }
+
+	    String user_id = userVO.getUser_id();
+	    CartVO cartVO = new CartVO();
+	    cartVO.setProduct_id(product_id);
+	    cartVO.setUser_id(user_id);
+	    cartVO.setAmount(amount);
+
+	    boolean result = cartService.modifyCartQty(cartVO);
+
+	    // 직접 JSON 형식의 문자열 반환
+	    return "{\"status\":\"" + (result ? "modify_success" : "modify_failed") + "\"}";
 	}
+	
 	@Override
 	@RequestMapping(value="/removeCartProduct.do" ,method = RequestMethod.POST)
 	public ModelAndView removeCartProduct(@RequestParam("cart_id") int cart_id,

@@ -12,9 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.cookit.product.vo.ProductInformVO;
 import com.cookit.product.vo.ProductVO;
 
-
-//import com.bookshop01.order.vo.OrderVO;
-
 @Repository("AdminProductDAO")
 public class AdminProductDAOImpl  implements AdminProductDAO{
 	@Autowired
@@ -39,86 +36,64 @@ public class AdminProductDAOImpl  implements AdminProductDAO{
 		sqlSession.insert("mapper.admin_product.insertInform", productInformVO);
 	}
 	
-//	@Override
-//	public List<ProductVO> selectAllProductList() throws DataAccessException {
-//		List<ProductVO> productList=(ArrayList)sqlSession.selectList("mapper.product.selectAllProductList");
-//	   return productList;	
-//     
-//	}
-//	@Override
-//	public void insertProductImageFile(List fileList)  throws DataAccessException {
-//		for(int i=0; i<fileList.size();i++){
-//			ImageFileVO imageFileVO=(ImageFileVO)fileList.get(i);
-//			sqlSession.insert("mapper.product.insertProductImageFile",imageFileVO);
-//		}
-//	}
-//		
-//	@Override
-//	public List<GoodsVO>selectNewGoodsList(Map condMap) throws DataAccessException {
-//		ArrayList<GoodsVO>  goodsList=(ArrayList)sqlSession.selectList("mapper.admin.goods.selectNewGoodsList",condMap);
-//		return goodsList;
-//	}
-//	
-//	@Override
-//	public GoodsVO selectGoodsDetail(int goods_id) throws DataAccessException{
-//		GoodsVO goodsBean = new GoodsVO();
-//		goodsBean=(GoodsVO)sqlSession.selectOne("mapper.admin.goods.selectGoodsDetail",goods_id);
-//		return goodsBean;
-//	}
-//	
-//	@Override
-//	public List selectGoodsImageFileList(int goods_id) throws DataAccessException {
-//		List imageList=new ArrayList();
-//		imageList=(List)sqlSession.selectList("mapper.admin.goods.selectGoodsImageFileList",goods_id);
-//		return imageList;
-//	}
-//	
-//	@Override
-//	public void updateGoodsInfo(Map goodsMap) throws DataAccessException{
-//		sqlSession.update("mapper.admin.goods.updateGoodsInfo",goodsMap);
-//	}
-//	
-//	@Override
-//	public void deleteGoodsImage(int image_id) throws DataAccessException{
-//		sqlSession.delete("mapper.admin.goods.deleteGoodsImage",image_id);
-//	}
-//	
-//	@Override
-//	public void deleteGoodsImage(List fileList) throws DataAccessException{
-//		int image_id;
-//		for(int i=0; i<fileList.size();i++){
-//			ImageFileVO bean=(ImageFileVO) fileList.get(i);
-//			image_id=bean.getImage_id();
-//			sqlSession.delete("mapper.admin.goods.deleteGoodsImage",image_id);	
-//		}
-//	}
-//
-//	@Override
-//	public List<OrderVO> selectOrderGoodsList(Map condMap) throws DataAccessException{
-//		List<OrderVO>  orderGoodsList=(ArrayList)sqlSession.selectList("mapper.admin.selectOrderGoodsList",condMap);
-//		return orderGoodsList;
-//	}	
-//	
-//	@Override
-//	public void updateOrderGoods(Map orderMap) throws DataAccessException{
-//		sqlSession.update("mapper.admin.goods.updateOrderGoods",orderMap);
-//		
-//	}
-//
-//	@Override
-//	public void updateGoodsImage(List<ImageFileVO> imageFileList) throws DataAccessException {
-//		
-//		for(int i=0; i<imageFileList.size();i++){
-//			ImageFileVO imageFileVO = imageFileList.get(i);
-//			sqlSession.update("mapper.admin.goods.updateGoodsImage",imageFileVO);	
-//		}
-//		
-//	}
-
-
-
-
-
+	@Override
+	public List<ProductVO> selectAllProductList() throws DataAccessException {
+		List<ProductVO> productList=sqlSession.selectList("mapper.admin_product.selectAllProductList");
+		
+		for(int i = 0; i < productList.size(); i++ ) {
+			ProductVO productVO = productList.get(i);
+			int product_id = productVO.getProduct_id();
+			float rating = sqlSession.selectOne("mapper.admin_product.selectProductRating",product_id);
+			productVO.setRating(rating);
+			
+		}	
+	   return productList;	
+     
+	}
 	
+	@Override
+	public void deleteProduct(int product_id) throws DataAccessException {
+		sqlSession.delete("mapper.admin_product.deleteProductInform", product_id);
+		sqlSession.delete("mapper.admin_product.deleteProduct", product_id);
+	};
+	
+	@Override
+	public ProductVO selectProduct(int product_id) throws DataAccessException {
+		ProductVO productVO = sqlSession.selectOne("mapper.admin_product.selectProduct", product_id);
+		return productVO;
+	};
+	
+	@Override
+	public ProductInformVO selectProductInfrom(int product_id) throws DataAccessException {
+		ProductInformVO productInformVO =sqlSession.selectOne("mapper.admin_product.selectProductInform", product_id);
+		return productInformVO;
+	};
+	
+	@Override
+	public int findProductId(String product_name) throws DataAccessException {
+		int product_id = sqlSession.selectOne("mapper.admin_product.selectProductId", product_name);
+		return product_id;
+	};
+	
+	@Override
+	public String selectImageName(int product_id) throws DataAccessException {
+		String ImageName = sqlSession.selectOne("mapper.admin_product.selectImageName", product_id);
+		return ImageName;
+	};
 
+	@Override
+	public String selectImageInform(int product_id) throws DataAccessException {
+		String ImageInform = sqlSession.selectOne("mapper.admin_product.selectImageInform", product_id);
+		return ImageInform;
+	};
+	
+	@Override
+	public void updateProduct(ProductVO productVO) throws DataAccessException {
+		sqlSession.update("mapper.admin_product.updateProduct", productVO);
+	};
+	
+	@Override
+	public void updateProductInform(ProductInformVO productInformVO) throws DataAccessException {
+		sqlSession.update("mapper.admin_product.updateProductInform", productInformVO);
+	};
 }

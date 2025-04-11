@@ -48,4 +48,32 @@ public class UserServiceImpl implements UserService {
         userDAO.updateUser(userVO);
     }
     
+    @Override
+    public void updatePassword(UserVO userVO) throws Exception {
+        userDAO.updatePassword(userVO);
+    }
+    
+    @Override
+    public boolean isNaverUserExists(String userId) throws Exception {
+        // 사용자 정보를 조회하고 null인지 여부로 존재 여부를 반환
+        return userDAO.selectNaverUserById(userId) != null;
+    }  
+    
+	@Override
+	public void insertNaverUser(UserVO userVO) throws Exception {
+		userDAO.insertNaverUser(userVO);
+	}
+	
+    @Override
+    public void updateNaverUser(UserVO userVO) throws Exception {
+        userDAO.updateNaverUser(userVO);
+    }
+    
+    @Override
+    public void deleteUser(String userId) throws Exception {
+        System.out.println("Deleting user: " + userId);
+        userDAO.deleteUser(userId);
+        System.out.println("User deleted successfully: " + userId);
+    }
+    
 }

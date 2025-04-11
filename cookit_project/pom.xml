@@ -117,6 +117,8 @@
 			<scope>test</scope>
 		</dependency>
 		
+		
+		
 		<!-- JDBC 설정하기 -->
 		<!-- 
      <dependency>
@@ -191,6 +193,12 @@
         <artifactId>jquery</artifactId>
         <version>2.2.1</version>
       </dependency>   
+     		 
+    	<dependency>
+    	  <groupId>com.google.code.gson</groupId>
+    	  <artifactId>gson</artifactId>
+    	  <version>2.8.0</version>  <!-- Java 1.6 호환 가능한 버전 -->
+		</dependency>
       
 	    
 	    <!-- 썸내일 기능 -->
@@ -207,6 +215,11 @@
 		    <version>2.4</version>
 		    <classifier>jdk15</classifier>    
 		</dependency>
+		<dependency>
+	        <groupId>org.codehaus.jackson</groupId>
+	        <artifactId>jackson-mapper-asl</artifactId>
+	        <version>1.9.13</version>
+	    </dependency>
 		
 		
 				<!-- AOP -->
@@ -234,6 +247,11 @@
 	    <artifactId>aspectjtools</artifactId>
 	    <version>${org.aspectj-version}</version>
 	</dependency>
+	<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20190722</version>
+</dependency>
 	</dependencies>
     <build>
         <plugins>

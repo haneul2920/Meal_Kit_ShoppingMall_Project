@@ -32,32 +32,51 @@ public class UserControllerImpl extends BaseController implements UserController
 	@Autowired
 	private UserVO userVO;
 
-	@Override	
-	@RequestMapping(value="/login.do" ,method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam Map<String, String> loginMap,
-			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		userVO=userService.login(loginMap);
-		if(userVO!= null && userVO.getUser_id()!=null){
-			HttpSession session=request.getSession();
-			session=request.getSession();
-			session.setAttribute("isLogOn", true);
-			session.setAttribute("userInfo",userVO);
-			
-			String action=(String)session.getAttribute("action");
-			if(action!=null && action.equals("/order/orderEachProduct.do")){
-				mav.setViewName("forward:"+action);
-			}else{
-				mav.setViewName("redirect:/main/main.do");	
-			}			
-		}else{
-			String message="¾ÆÀÌµğ³ª  ºñ¹Ğ¹øÈ£°¡ Æ²¸³´Ï´Ù. ´Ù½Ã ·Î±×ÀÎÇØÁÖ¼¼¿ä";
-			mav.addObject("message", message);
-			mav.setViewName("/user/loginForm");
-		}
-		mav.setViewName("/main/main");
-		return mav;
-	}
+	/*
+	 * @Override
+	 * 
+	 * @RequestMapping(value="/login.do" ,method = RequestMethod.POST) public
+	 * ModelAndView login(@RequestParam Map<String, String> loginMap,
+	 * HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 * ModelAndView mav = new ModelAndView(); userVO=userService.login(loginMap);
+	 * if(userVO!= null && userVO.getUser_id()!=null){ HttpSession
+	 * session=request.getSession(); session=request.getSession();
+	 * session.setAttribute("isLogOn", true);
+	 * session.setAttribute("userInfo",userVO);
+	 * 
+	 * String action=(String)session.getAttribute("action"); if(action!=null &&
+	 * action.equals("/order/orderEachProduct.do")){
+	 * mav.setViewName("forward:"+action); }else{
+	 * mav.setViewName("redirect:/main/main.do"); } }else{ String
+	 * message="ï¿½ï¿½ï¿½Ìµï¿½  ï¿½ï¿½Ğ¹ï¿½È£ï¿½ï¿½ Æ²ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Ù½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½"; mav.addObject("message", message);
+	 * mav.setViewName("/user/loginForm"); } return mav; }
+	 */
+	
+	@Override
+    @RequestMapping(value="/login.do", method = RequestMethod.POST)
+    public ModelAndView login(@RequestParam Map<String, String> loginMap,
+                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        userVO = userService.login(loginMap);
+
+        if(userVO != null && userVO.getUser_id() != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("isLogOn", true);
+            session.setAttribute("userInfo", userVO);
+
+            String redirectUrl = (String) session.getAttribute("redirectUrl");
+            if (redirectUrl != null) {
+                session.removeAttribute("redirectUrl");
+                mav.setViewName("redirect:" + redirectUrl);
+            } else {
+                mav.setViewName("redirect:/main/main.do");
+            }
+        } else {
+            mav.addObject("message", "ì•„ì´ë””ë‚˜  ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë¦½ë‹ˆë‹¤. ë‹¤ì‹œ ë¡œê·¸ì¸í•´ì£¼ì„¸ìš”.");
+            mav.setViewName("/user/loginForm");
+        }
+        return mav;
+    }
 
 	@Override
 	@RequestMapping(value="/logout.do" ,method = RequestMethod.GET)
@@ -81,15 +100,16 @@ public class UserControllerImpl extends BaseController implements UserController
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		try {
+			 _userVO.setUser_type("Nomal");
 		    userService.addUser(_userVO);
 		    message  = "<script>";
-		    message +=" alert('È¸¿ø °¡ÀÔÀ» ¸¶ÃÆ½À´Ï´Ù.·Î±×ÀÎÃ¢À¸·Î ÀÌµ¿ÇÕ´Ï´Ù.');";
+		    message +=" alert('íšŒì› ê°€ì…ì„ ë§ˆì³¤ìŠµë‹ˆë‹¤.ë¡œê·¸ì¸ì°½ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.');";
 		    message += " location.href='"+request.getContextPath()+"/user/loginForm.do';";
 		    message += " </script>";
 		    
 		}catch(Exception e) {
 			message  = "<script>";
-		    message +=" alert('ÀÛ¾÷ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù. ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä');";
+		    message +=" alert('ì‘ì—… ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•´ ì£¼ì„¸ìš”.');";
 		    message += " location.href='"+request.getContextPath()+"/user/userForm.do';";
 		    message += " </script>";
 			e.printStackTrace();
@@ -118,7 +138,7 @@ public class UserControllerImpl extends BaseController implements UserController
     }
     
     @Override
-    @RequestMapping(value = "/updateForm", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateForm.do", method = RequestMethod.GET)
     public ModelAndView showUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("userId");
         UserVO user = userService.getUserById(userId);
@@ -126,29 +146,90 @@ public class UserControllerImpl extends BaseController implements UserController
         mav.addObject("user", user);
         return mav;
     }
-
+    
+	
     @Override
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public void updateUser(@ModelAttribute UserVO userVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String newPassword = request.getParameter("password2");
-        if (newPassword != null && !newPassword.isEmpty()) {
-            userVO.setUser_pwd(newPassword);
-        }
-        userService.updateUser(userVO);
-
+    public ModelAndView updateUser(@ModelAttribute UserVO userVO, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
-        session.setAttribute("loginUser", userVO);
+        UserVO loggedInUser = (UserVO) session.getAttribute("userInfo");
 
-        System.out.println("Updated Session User: " + session.getAttribute("loginUser"));
+        ModelAndView mav = new ModelAndView("/user/updateForm");
 
-        // JavaScript alert Ã¢ ¹× ¸®´ÙÀÌ·ºÆ® Ã³¸®
-        response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().write(
-            "<script>" +
-            "alert('È¸¿ø Á¤º¸°¡ ¼öÁ¤µÇ¾ú½À´Ï´Ù.');" +
-            "location.href='" + request.getContextPath() + "/main/main.do';" +
-            "</script>"
-        );
+        if (loggedInUser == null) {
+            mav.addObject("message", "ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+            mav.addObject("redirectUrl", request.getContextPath() + "/user/loginForm.do");
+            return mav;
+        }
+        userVO.setEmail1(loggedInUser.getEmail1());
+        userVO.setEmail2(loggedInUser.getEmail2());
+        userVO.setUser_id(loggedInUser.getUser_id());
+        userVO.setUser_pwd(loggedInUser.getUser_pwd());
+        userService.updateUser(userVO);
+        session.setAttribute("userInfo", userVO);
+
+        mav.addObject("message", "íšŒì› ì •ë³´ ìˆ˜ì • ì™„ë£Œ.");
+        mav.addObject("redirectUrl", request.getContextPath() + "/main/main.do");
+
+        return mav;
+    }
+
+    @Override
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public ModelAndView updatePassword(@ModelAttribute UserVO userVO, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        UserVO loggedInUser = (UserVO) session.getAttribute("userInfo");
+
+        ModelAndView mav = new ModelAndView("/user/updateForm");
+
+        if (loggedInUser == null) {
+            mav.addObject("message", "ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+            mav.addObject("redirectUrl", request.getContextPath() + "/user/loginForm.do");
+            return mav;
+        }
+
+        String newPassword = request.getParameter("password2");
+        String confirmPassword = request.getParameter("password3");
+
+        if (!newPassword.equals(confirmPassword)) {
+            mav.addObject("message", "ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+            mav.addObject("redirectUrl", request.getContextPath() + "/user/updateForm.do");
+            return mav;
+        }
+
+        loggedInUser.setUser_pwd(newPassword);
+        userService.updatePassword(loggedInUser);
+        session.setAttribute("userInfo", loggedInUser);
+
+        mav.addObject("message", "íšŒì› ì •ë³´ ìˆ˜ì • ì™„ë£Œ.");
+        mav.addObject("redirectUrl", request.getContextPath() + "/main/main.do");
+
+        return mav;
+    }
+    
+    @Override
+    @RequestMapping(value = "/delete.do", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView deleteUser(@RequestParam("userId") String userId, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        System.out.println("deleteUser í˜¸ì¶œë¨ - userId: " + userId);
+
+        try {
+            userService.deleteUser(userId);
+            System.out.println("deleteUser ì •ìƒ ì²˜ë¦¬ë¨");
+
+            HttpSession session = request.getSession();
+            session.invalidate();
+
+            mav.addObject("message", "íšŒì› íƒˆí‡´ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+            mav.setViewName("redirect:/main/main.do");
+        } catch (Exception e) {
+            System.out.println("deleteUser ì‹¤í–‰ ì¤‘ ì˜¤ë¥˜ ë°œìƒ: " + e.getMessage());
+            e.printStackTrace();
+            mav.addObject("message", "íšŒì› íƒˆí‡´ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+            mav.setViewName("errorPage");
+        }
+
+        return mav;
     }
 	
 }

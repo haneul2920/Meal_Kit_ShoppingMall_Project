@@ -9,6 +9,11 @@
        <put-attribute name="title" value="회원페이지 메인" />
        <put-attribute name="body" value="/WEB-INF/view/mypage/myPageMain.jsp" />
     </definition>
+    
+    <definition name="/mypage/orderDetail" extends="baseLayout">
+       <put-attribute name="title" value="주문 내역 확인 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/mypage/myOrderList.jsp" />
+    </definition>
 
 
 </tiles-definitions>

@@ -43,6 +43,15 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>NaverCallbackServlet</servlet-name>
+	    <servlet-class>com.cookit.user.controller.UserNaverCallback</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		    <servlet-name>NaverCallbackServlet</servlet-name>
+		    <url-pattern>/user/naverCallback.do</url-pattern>
+	</servlet-mapping>
    
 
 

@@ -2,7 +2,20 @@
 	pageEncoding="utf-8"
 	isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+    String clientId = "8O_1bqGXuNneG4LZnXdZ";  // 네이버에서 발급받은 Client ID
+    String redirectURI = java.net.URLEncoder.encode("http://localhost:8090/cookit_project/naverUser/UserNaverCallback.do", "UTF-8");
+    
+    // 랜덤한 state 값 생성 (UUID 사용)
+    String state = java.util.UUID.randomUUID().toString();  
+    
+    // 세션에 저장하여 나중에 콜백에서 검증
+    session.setAttribute("naverState", state);  
+    
+    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + clientId + "&redirect_uri=" + redirectURI + "&state=" + state;
+%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}" />
+<link href="${contextPath}/resources/css/main.css" rel="stylesheet" type="text/css" media="screen">
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -95,7 +108,8 @@
             // 일반 회원가입 페이지로 이동
             window.location.href = "${contextPath}/user/userForm.do";
         }
-    </script>
+	</script>
+	
 </head>
 <body>
     <div class="signup-container">
@@ -109,8 +123,10 @@
             
             <!-- SNS 회원가입 버튼들 -->
             <button class="signup-button sns-signup kakao">카카오로 3초만에 회원가입</button>
-            <button class="signup-button sns-signup naver">네이버로 회원가입</button>
+            <button onclick="location.href='<%= apiURL %>'" class="signup-button sns-signup naver">네이버로 회원가입</button>
             <button class="signup-button sns-signup apple">애플로 회원가입</button>
+                    <!-- 네이버 스크립트 -->
+
         </div>
     </div>
 </body>

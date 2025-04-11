@@ -3,19 +3,16 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-    <definition name="/order/orderEachGoods" extends="baseLayout">
+    <definition name="/order/orderEachProduct" extends="baseLayout">
        <put-attribute name="title" value="상품 주문 페이지" />
-       <put-attribute name="body" value="/WEB-INF/view/order/orderGoodsForm.jsp" />
+       <put-attribute name="body" value="/WEB-INF/view/order/orderProductForm.jsp" />
     </definition>
-    <definition name="/order/orderAllCartProdcut" extends="baseLayout">
+    
+    <definition name="/order/orderAllCartProduct" extends="baseLayout">
        <put-attribute name="title" value="상품 주문 페이지" />
        <put-attribute name="body" value="/WEB-INF/view/order/orderProductForm.jsp" />
     </definition> 
-     <definition name="/order/payToOrderGoods" extends="baseLayout">
-       <put-attribute name="title" value="상품 주문 결과 페이지" />
-       <put-attribute name="body" value="/WEB-INF/view/order/orderResult.jsp" />
-    </definition>
-    
+  
 </tiles-definitions>
 
 

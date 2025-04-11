@@ -26,7 +26,7 @@ import com.cookit.product.vo.ProductVO;
 
 
 public abstract class BaseController  {
-	private static final String CURR_IMAGE_REPO_PATH = "C:\\cookitMall\\file_repo";
+	private static final String CURR_IMAGE_REPO_PATH = "/pandas13/tomcat/webapps/ROOT/resources/product_image";
 	
 	protected ProductVO upload(MultipartHttpServletRequest multipartRequest) throws Exception{
 		ProductVO productVO= new ProductVO();
@@ -41,15 +41,15 @@ public abstract class BaseController  {
 				productVO.setProduct_image(fileName);
 				mFile = multipartRequest.getFile(fileName);
 				originalFileName = mFile.getOriginalFilename();
-				productVO.setProduct_image(originalFileName);
-				File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileName);
+				productVO.setProduct_image(originalFileName); 
+				File file = new File(CURR_IMAGE_REPO_PATH +"/"+ fileName);
 				if(mFile.getSize()!=0){ //File Null Check
 					if(! file.exists()){ //
 						if(file.getParentFile().mkdirs()){ //
 								file.createNewFile(); //
 						}
 					}
-					mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+originalFileName)); //
+					mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"/"+"temp"+ "/"+originalFileName)); //
 				}
 			}
 			else if(fileName.equals("product_inform_")) {
@@ -57,21 +57,21 @@ public abstract class BaseController  {
 				mFile = multipartRequest.getFile(fileName);
 				originalFileName = mFile.getOriginalFilename();
 				productVO.setProduct_inf_image(originalFileName);
-				File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileName);
+				File file = new File(CURR_IMAGE_REPO_PATH +"/"+ fileName);
 				if(mFile.getSize()!=0){ //File Null Check
 					if(! file.exists()){ //
 						if(file.getParentFile().mkdirs()){ //
 								file.createNewFile(); //
 						}
 					}
-					mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+originalFileName)); //
+					mFile.transferTo(new File(CURR_IMAGE_REPO_PATH +"/"+"temp"+ "/"+originalFileName)); //
 				}
 			}
 		}
 		return productVO;
 	}
 	private void deleteFile(String fileName) {
-		File file =new File(CURR_IMAGE_REPO_PATH+"\\"+fileName);
+		File file =new File(CURR_IMAGE_REPO_PATH+"/"+fileName);
 		try{
 			file.delete();
 		}catch(Exception e){

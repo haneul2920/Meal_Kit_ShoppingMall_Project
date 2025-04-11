@@ -1,18 +1,17 @@
 package com.cookit.cart.vo;
+import java.io.Serializable;
+
 import org.springframework.stereotype.Component;
 
 @Component("cartVO")
-public class CartVO {
+public class CartVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 	private int cart_id;
 	private String user_id;
 	private int product_id;
 	private int amount;
-	private int cart_product_qty;
 	
-	public CartVO() {
-		
-	}
-	
+
 	
 	public int getCart_id() {
 		return cart_id;
@@ -38,11 +37,6 @@ public class CartVO {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public int getCart_product_qty() {
-		return cart_product_qty;
-	}
-	public void setCart_product_qty(int cart_product_qty) {
-		this.cart_product_qty = cart_product_qty;
-	}
+
 
 }

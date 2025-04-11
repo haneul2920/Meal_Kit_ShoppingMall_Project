@@ -40,24 +40,21 @@
 #menu li {
     padding: 0 15px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 #menu li:hover {
     text-decoration: underline;
 }
-
-/* 5. 광고 배너 */
-#banner {
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    padding: 40px 0;
-    font-size: 24px;
-    font-weight: bold;
+#menu .dropdown-menu li a {
+	font-size: 13px;
+	text-decoration: none;
+	color: #4b4a49;
 }
 
-.dropdown {
+
+
+/* .dropdown {
     position: relative;
     display: inline-block;
 }
@@ -73,7 +70,7 @@
 
 .dropdown:hover .dropdown-menu {
     display: block;
-}
+} */
 .clear {
 	clear: both;
 }
@@ -83,22 +80,9 @@
 #wrap {
 	margin: 0px auto; padding: 0px; width: 995px; float: left;
 }
-
-footer {
-	background-position: top; margin: 10px 0px 0px; font-size: 0.75em; background-image: url("../imgs/foo_back.gif"); background-repeat: repeat-x;
-}
-footer ul {
-	list-style: none; margin: 0px 0px 0px 210px;
-}
-footer ul li {
-	background-position: right; font-family: "NanumGothic", Serif; float: left; background-image: url("../imgs/foot_line.gif"); background-repeat: no-repeat;
-}
-footer ul li.no_line {
-	background-image: none;
-}
-footer ul li a {
-	padding: 5px 15px; font-size: 1.1em; display: block;
-}
-footer img {
-	margin: 10px 0px 0px 40px; width: 150px; float: left;
+.no-wrap-style {
+    width: 100%; /* 배너에 맞게 너비를 지정 */
+    margin: 0;    /* 불필요한 마진 제거 */
+    padding: 0;   /* 불필요한 패딩 제거 */
+    float: none;  /* float를 제거 */
 }

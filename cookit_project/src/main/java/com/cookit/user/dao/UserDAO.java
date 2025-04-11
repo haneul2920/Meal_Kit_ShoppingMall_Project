@@ -13,6 +13,9 @@ public interface UserDAO {
 	public UserVO selectUserInfo(String userId);
     public UserVO selectUserById(String userId) throws Exception;
     public void updateUser(UserVO userVO) throws Exception;
-	
-
+	public void updatePassword(UserVO userVO) throws Exception;
+	public void insertNaverUser(UserVO userVO) throws Exception;	
+	public UserVO selectNaverUserById(String userId) throws Exception;
+	public void updateNaverUser(UserVO userVO) throws Exception;
+	public void deleteUser(String userId) throws DataAccessException;
 }
